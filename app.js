@@ -1,53 +1,60 @@
-import React,{Component} from 'react'
+import React, {Component} from 'react'
 import {
     View,
     Text,
-    Button
+    StyleSheet
 } from 'react-native'
+import {Provider} from 'react-redux'
 import {StackNavigator} from 'react-navigation'
 
-class ChatScreen extends React.Component {
-    static navigationOptions = ({ navigation }) => ({
-        title: `Chat with ${navigation.state.params.user}`,
-    });
-    render() {
-        const { params } = this.props.navigation.state;
-        return (
-            <View>
-                <Text>Chat with {params.user}</Text>
-            </View>
-        );
-    }
-}
+import configureStore from './store'
+import TopicListContainer from './container/TopicListContainer'
 
-class App extends Component{
+const store = configureStore()
 
-    constructor(props){
+class App extends Component {
+
+    constructor(props) {
         super(props);
     }
 
-    render(){
-        const { navigate } = this.props.navigation;
-        return(
-            <View>
-                <Button
-                    onPress={()=>navigate('Chat',{ user: 'Lucy' })}
-                    title={'Chat'}
-                />
+    render() {
+        return (
+            <View style={styles.container}>
+                <TopicListContainer />
             </View>
         );
     }
 }
 
 App.navigationOptions = {
-    title: 'Welcome'
+    title: 'Home'
 }
 
-export default StackNavigator({
-    App: {
+const styles = StyleSheet.create({
+    container: {
+        backgroundColor: '#FFF'
+    }
+});
+
+const NavigatorApp = StackNavigator({
+    Home: {
         screen: App
-    },
-    Chat: {
-        screen: ChatScreen
     }
 })
+
+
+export default class Enter extends Component {
+
+    render() {
+        return (
+            <Provider store={store}>
+                <NavigatorApp
+                />
+            </Provider>
+        )
+    }
+}
+
+
+

@@ -9,9 +9,14 @@
   "dependencies": {
     "immutable": "^3.8.1",
     "react": "16.0.0-alpha.6",
+    "react-addons-pure-render-mixin": "^15.5.2",
+    "react-mixin": "^3.0.5",
     "react-native": "0.43.3",
     "react-navigation": "git+https://github.com/react-community/react-navigation.git",
-    "react-addons-pure-render-mixin": "^15.3.2"
+    "react-redux": "^5.0.4",
+    "redux-immutablejs": "0.0.8",
+    "redux-logger": "^3.0.1",
+    "redux-thunk": "^2.2.0"
   },
   "devDependencies": {
     "babel-jest": "19.0.0",
