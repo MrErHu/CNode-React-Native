@@ -9,6 +9,7 @@ import {
 } from 'react-native'
 import moment from 'moment'
 import Color from '../../constant/Color'
+import {TabContrast} from '../../constant/Constant'
 
 @mixin(PureRenderMixin)
 class TopicListItem extends Component {
@@ -26,7 +27,7 @@ class TopicListItem extends Component {
             <View style={styles.container}>
                 <View style={styles.title}>
                     <View style={styles.tabView}>
-                        <Text style={styles.tabText}>{'精华'}</Text>
+                        <Text style={styles.tabText}>{TabContrast[tab]}</Text>
                     </View>
                     <Text style={styles.titleContent}>{title}</Text>
                 </View>

@@ -1,4 +1,4 @@
-import React,{Component}from 'react'
+import React,{Component,PropTypes}from 'react'
 import {
     View,
     Text,
@@ -6,6 +6,7 @@ import {
 } from 'react-native'
 
 import TopicListItem from './TopicListItem'
+import {URL_PREFIX} from '../../constant/Constant'
 
 class TopicList extends Component{
 
@@ -13,10 +14,17 @@ class TopicList extends Component{
         super(props);
     }
 
+    static propTypes = {
+
+    }
+
+    static defaultProps = {
+        
+    }
+
     render(){
         return(
             <View style={styles.container}>
-                <TopicListItem/>
             </View>
         )
     }
