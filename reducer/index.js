@@ -1,6 +1,6 @@
 import {combineReducers} from  'redux-immutablejs'
 
-import topicList from './topicList'
+import topicList from './topicListReducer'
 
 const reducer = combineReducers({
     topicList
