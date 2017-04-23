@@ -12,7 +12,8 @@ const initialState = Immutable.fromJS({
         share: [],
         good: [],
         job: [],
-        ask: []
+        ask: [],
+        all: [],
     }
 });
 
@@ -25,8 +26,9 @@ export default ($topicList = initialState, action) => {
         case ActionTypes.RECEIVE_TOPICLIST:
             $topicList = $topicList.set('isFetching', false);
             $topicList = $topicList.set('updateAt', Date.now());
-            $topicList.getIn(['data', $topicList.get('tab')]).concat(Immutable.fromJS(action.data));
-            return $topicList.getIn(['data', $topicList.get('tab')]).concat(Immutable.fromJS(action.data));
+            const $data = $topicList.getIn(['data', $topicList.get('tab')]).concat(Immutable.fromJS(action.data))
+            $topicList = $topicList.setIn(['data', $topicList.get('tab')],$data)
+            return $topicList;
         default:
             return $topicList
     }

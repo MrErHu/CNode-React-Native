@@ -8,8 +8,9 @@ import {
     StyleSheet
 } from 'react-native'
 import moment from 'moment'
-import Color from '../../constant/Color'
+import 'moment/locale/zh-cn'
 import {TabContrast} from '../../constant/Constant'
+moment.locale('zh-cn')
 
 @mixin(PureRenderMixin)
 class TopicListItem extends Component {
@@ -29,7 +30,12 @@ class TopicListItem extends Component {
                     <View style={styles.tabView}>
                         <Text style={styles.tabText}>{TabContrast[tab]}</Text>
                     </View>
-                    <Text style={styles.titleContent}>{title}</Text>
+                    <Text
+                        style={styles.titleContent}
+                        numberOfLines={1}
+                    >
+                        {title}
+                    </Text>
                 </View>
                 <View style={styles.detail}>
                     <Image
@@ -38,15 +44,16 @@ class TopicListItem extends Component {
                     />
                     <View style={styles.centerContent}>
                         <Text style={styles.detailText}>{author.loginname}</Text>
-                        <Text style={styles.detailText}>{'创建于:' +moment(create_at).format('lll')}</Text>
+                        <Text style={styles.detailText}>{'创建于: ' +moment(create_at).locale('de').format('ll')}</Text>
                     </View>
                     <View style={styles.rightContent}>
                         <Text style={styles.detailText}>
                             <Text style={{color: '#80bd01'}}>{reply_count}</Text>
                             {` / ${visit_count}`}
                         </Text>
-                        <Text style={styles.detailText}>{moment(last_reply_at).startOf('hour').fromNow()
-                        }</Text>
+                        <Text style={styles.detailText}>
+                            {moment(last_reply_at).startOf('hour').fromNow()}
+                        </Text>
                     </View>
                 </View>
             </View>
@@ -60,7 +67,7 @@ const styles = StyleSheet.create({
         height: 100,
         flexDirection: 'column',
         borderBottomWidth: 0.5,
-        borderBottomColor: '#FFF',
+        borderBottomColor: '#666',
         padding: 15
     },
     title: {

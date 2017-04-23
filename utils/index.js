@@ -1,5 +1,6 @@
-import * as network from './network'
+import {get,post} from './network'
 
-export default {
-    ...network
+export {
+    get,
+    post
 }
