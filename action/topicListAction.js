@@ -21,7 +21,7 @@ const receiveTopicList = (data)=> {
 
 const fetchTopicList = (options) => {
     return (dispatch) => {
-        dispatch(requestTopicList)
+        dispatch(requestTopicList())
         let url = `${URL_PREFIX}/topics?`
         const keys = Object.keys(options);
         _.each(keys,(key,index)=>{

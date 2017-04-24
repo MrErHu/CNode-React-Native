@@ -5,7 +5,7 @@ import TopicList from '../../component/TopicList'
 
 
 const mapStateToProps = (state,ownProps) =>{
-    const {limit,mdrender,tab,data} = state.get('topicList').toJS()
+    const {limit,mdrender,tab,data,isFetching} = state.get('topicList').toJS()
     const page = data[tab].length;
     const options = {
         limit,
@@ -15,7 +15,8 @@ const mapStateToProps = (state,ownProps) =>{
     };
     return {
         options,
-        data: data[tab]
+        data: data[tab],
+        isFetching: isFetching
     }
 }
 
