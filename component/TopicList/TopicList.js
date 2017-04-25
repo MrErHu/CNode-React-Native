@@ -8,9 +8,9 @@ import {
     StyleSheet,
 }
     from 'react-native'
-
-import TopicListItem from './TopicListItem'
 import _ from 'lodash'
+import TopicListItem from './TopicListItem'
+
 
 class TopicList extends Component {
 
@@ -18,6 +18,7 @@ class TopicList extends Component {
         super(props);
         this._renderTopicItem = this._renderTopicItem.bind(this)
         this._onEndReachedHandler = this._onEndReachedHandler.bind(this)
+        this._renderFooterHandler = this._renderFooterHandler.bind(this)
         this.dataSource = new ListView.DataSource({
             rowHasChanged: (r1, r2) => r1 !== r2
         })
@@ -38,28 +39,17 @@ class TopicList extends Component {
     render() {
         const {data, isFetching} = this.props;
         return (
-            <ScrollView style={styles.container}>
-                <View>
-                    <ListView
-                        dataSource={this.dataSource.cloneWithRows(data)}
-                        renderRow={this._renderTopicItem}
-                        enableEmptySections={true}
-                        initialListSize={10}
-                        onEndReachedThreshold={5}
-                        onEndReached={this._onEndReachedHandler}
-                    />
-                </View>
-                {
-                    !isFetching ? null : (
-                            <View style={styles.loadingContainer}>
-                                <Image
-                                    source={require('../../asset/image/loading.gif')}
-                                    style={styles.loading}
-                                />
-                            </View>
-                        )
-                }
-            </ScrollView>
+            <View style={styles.container}>
+                <ListView
+                    dataSource={this.dataSource.cloneWithRows(data)}
+                    renderRow={this._renderTopicItem}
+                    enableEmptySections={true}
+                    initialListSize={10}
+                    onEndReachedThreshold={0}
+                    onEndReached={this._onEndReachedHandler}
+                    renderFooter={this._renderFooterHandler}
+                />
+            </View>
         )
     }
 
@@ -80,13 +70,30 @@ class TopicList extends Component {
             actions.fetchTopicList(options);
         }
     }
+
+    _renderFooterHandler(){
+        if(this.props.isFetching){
+            return (
+                <View style={styles.loadingContainer}>
+                    <Image
+                        source={require('../../asset/image/loading.gif')}
+                        style={styles.loading}
+                    />
+                </View>
+            )
+        }else {
+            return null;
+        }
+    }
 }
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#FFF'
+        backgroundColor: '#FFF',
     },
     loadingContainer: {
+        flex: 1,
+        height: 40,
         justifyContent: 'center',
         alignItems: 'center'
     },

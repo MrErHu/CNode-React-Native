@@ -18,6 +18,7 @@ const initialState = Immutable.fromJS({
 });
 
 export default ($topicList = initialState, action) => {
+    console.log('redux',action.type);
     switch (action.type) {
         case ActionTypes.UPDATE_TAB:
             return $topicList.set('tab', action.tab)

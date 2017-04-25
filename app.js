@@ -11,13 +11,16 @@ import {StackNavigator} from 'react-navigation'
 import configureStore from './store'
 import TopicListContainer from './container/TopicListContainer'
 import Portal from './base/Portal'
+import SliderMenu from './component/SliderMenu'
 
 const store = configureStore()
 
 const Category = () => {
     return(
         <TouchableWithoutFeedback
-            onPress={()=>{}}
+            onPress={()=>{
+                SliderMenu.showSliderMenuWithOptions();
+            }}
         >
             <Image
                 source={require('./asset/image/category.png')}
