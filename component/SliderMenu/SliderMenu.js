@@ -6,6 +6,7 @@ import {
     Animated,
     Dimensions,
     StyleSheet,
+    TouchableHighlight,
     TouchableWithoutFeedback
 } from 'react-native'
 import Portal from '../../base/Portal'
@@ -16,11 +17,10 @@ import {TabContrast, funcContrast} from '../../constant/Constant'
 class SliderMenu extends Component {
 
     constructor(props) {
-        super(props);
+        super(props)
         this.state = {
             width: new Animated.Value(0)
         }
-
     }
 
     static propTypes = {
@@ -61,12 +61,13 @@ class SliderMenu extends Component {
                         {
                             Object.keys(TabContrast).map((key) => {
                                 return (
-                                    <TouchableWithoutFeedback
+                                    <TouchableHighlight
+                                        style={styles.buttonView}
+                                        underlayColor={'#F2F2F2'}
                                         key={key}
+                                        onPress={this._tabChangeHandler.bind(this,key)}
                                     >
-                                        <View
-                                            style={[styles.button,tab === key ? styles.buttonActive: null]}
-                                        >
+                                        <View style={[styles.button,tab === key ? styles.buttonActive: null]}>
                                             <Image
                                                 style={styles.buttonIcon}
                                                 source={ImagePath[key]}
@@ -75,25 +76,27 @@ class SliderMenu extends Component {
                                                 {TabContrast[key]}
                                             </Text>
                                         </View>
-                                    </TouchableWithoutFeedback>
+                                    </TouchableHighlight>
                                 )
                             })
                         }
                         {
                             ['message', 'set', 'about'].map((key) => {
                                 return (
-                                    <View
-                                        style={styles.button}
+                                    <TouchableHighlight
+                                        style={styles.buttonView}
                                         key={key}
                                     >
-                                        <Image
-                                            style={styles.buttonIcon}
-                                            source={ImagePath[key]}
-                                        />
-                                        <Text style={styles.buttonText}>
-                                            {funcContrast[key]}
-                                        </Text>
-                                    </View>
+                                        <View style={styles.button}>
+                                            <Image
+                                                style={styles.buttonIcon}
+                                                source={ImagePath[key]}
+                                            />
+                                            <Text style={styles.buttonText}>
+                                                {funcContrast[key]}
+                                            </Text>
+                                        </View>
+                                    </TouchableHighlight>
                                 )
                             })
                         }
@@ -102,6 +105,13 @@ class SliderMenu extends Component {
             </TouchableWithoutFeedback>
         )
     }
+
+    _tabChangeHandler(tab){
+        const {actions,onRequestClose} = this.props;
+        actions.updateTab(tab);
+        onRequestClose();
+    }
+
 }
 
 const styles = StyleSheet.create({
@@ -118,6 +128,9 @@ const styles = StyleSheet.create({
     userContent: {
         flex: 4,
         paddingTop: 20
+    },
+    buttonView: {
+        flex: 1
     },
     button: {
         flex: 1,

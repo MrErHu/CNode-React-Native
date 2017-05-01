@@ -34,10 +34,14 @@ class TopicList extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        if(this.props.options.tab != nextProps.options.tab){
+            const {actions, options} = this.props;
+            actions.fetchTopicList(nextProps.options);
+        }
     }
 
     render() {
-        const {data, isFetching} = this.props;
+        const {data} = this.props;
         return (
             <View style={styles.container}>
                 <ListView

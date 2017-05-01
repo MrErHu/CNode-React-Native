@@ -5,6 +5,8 @@ import {
     TouchableWithoutFeedback,
 }from 'react-native'
 import SliderMenu from '../../component/SliderMenu'
+import {updateTab} from '../../action/topicListAction'
+import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 
 class Category extends Component{
@@ -14,12 +16,13 @@ class Category extends Component{
     }
 
     render(){
-        const {tab} = this.props;
+        const {tab,actions} = this.props;
         return (
             <TouchableWithoutFeedback
                 onPress={()=>{
                 SliderMenu.showSliderMenuWithOptions({
-                    tab: tab
+                    tab,
+                    actions
                 });
             }}
             >
@@ -47,4 +50,13 @@ const mapStateToProps = (state) =>{
     }
 }
 
-export default connect(mapStateToProps)(Category)
+const mapDispatchToProps = (dispatch) => {
+    const actions = {
+        updateTab
+    }
+    return {
+        actions: bindActionCreators(actions,dispatch)
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Category)
