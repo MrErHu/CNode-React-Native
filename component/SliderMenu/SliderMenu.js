@@ -3,6 +3,7 @@ import {
     View,
     Text,
     Image,
+    Easing,
     Animated,
     Dimensions,
     StyleSheet,
@@ -21,6 +22,7 @@ class SliderMenu extends Component {
         this.state = {
             width: new Animated.Value(0)
         }
+        this._closeSliderMenu = this._closeSliderMenu.bind(this)
     }
 
     static propTypes = {
@@ -33,9 +35,8 @@ class SliderMenu extends Component {
         Portal.showModal(tag, <SliderMenu
             key={tag}
             {...options}
-            onRequestClose={(callback)=>{
-                Portal.closeModal(tag);
-                callback && callback();
+            onRequestClose={()=>{
+                Portal.closeModal(tag)
             }}
         />)
     }
@@ -48,15 +49,27 @@ class SliderMenu extends Component {
     }
 
     render() {
-        const {tab} = this.props;
+        const {tab,onRequestClose} = this.props;
         return (
-            <TouchableWithoutFeedback onPress={()=>{this.props.onRequestClose()}}>
+            <TouchableWithoutFeedback onPress={()=>{this._closeSliderMenu(onRequestClose)}}>
                 <View style={styles.container}>
                     <Animated.View
                         style={[styles.content,{width: this.state.width}]}
                     >
                         <View style={[styles.userContent,styles.border]}>
-                            <Text>'User info'</Text>
+                            <View style={styles.avatarView}>
+
+                            </View>
+                            <View style={styles.userInfoView}>
+                                <View style={styles.userInfoViewLeft}>
+                                    <Text style={styles.userInfoViewLeftText}>TakWolf</Text>
+                                    <Text style={styles.userInfoViewLeftText}>积分: 370</Text>
+                                </View>
+                                <View style={styles.userInfoViewRight}>
+                                    <Text>注销</Text>
+                                </View>
+
+                            </View>
                         </View>
                         {
                             Object.keys(TabContrast).map((key) => {
@@ -109,7 +122,19 @@ class SliderMenu extends Component {
     _tabChangeHandler(tab){
         const {actions,onRequestClose} = this.props;
         actions.updateTab(tab);
-        onRequestClose();
+        this._closeSliderMenu(onRequestClose)
+    }
+
+    _closeSliderMenu(callback){
+        Animated.timing(
+            this.state.width,
+            {
+                duration: 500,
+                toValue: 0
+            }
+        ).start(()=>{
+            callback()
+        });
     }
 
 }
@@ -126,8 +151,9 @@ const styles = StyleSheet.create({
         flexDirection: 'column'
     },
     userContent: {
-        flex: 4,
-        paddingTop: 20
+        flex: 3,
+        paddingTop: 20,
+        flexDirection: 'column'
     },
     buttonView: {
         flex: 1
@@ -155,6 +181,26 @@ const styles = StyleSheet.create({
     border: {
         borderBottomWidth: 2,
         borderBottomColor: '#cccccc'
+    },
+    avatarView: {
+        flex: 2
+    },
+    userInfoView: {
+        flex: 1,
+        flexDirection: 'row'
+    },
+    userInfoViewLeft: {
+        flex: 2,
+        flexDirection: 'column'
+    },
+    userInfoViewLeftText: {
+        flex: 1,
+        marginLeft: 20
+    },
+    userInfoViewRight: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 })
 

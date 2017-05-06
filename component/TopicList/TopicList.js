@@ -6,12 +6,20 @@ import {
     Image,
     ScrollView,
     StyleSheet,
-}
-    from 'react-native'
+} from 'react-native'
 import _ from 'lodash'
+import {decorate as mixin} from 'react-mixin'
 import TopicListItem from './TopicListItem'
+import TopicListHelper from './TopicListHelper'
+import PureRenderMixin from 'react-addons-pure-render-mixin'
+
+const initialState = {
+    data: [],
+    isFetching: true
+}
 
 
+@mixin(PureRenderMixin)
 class TopicList extends Component {
 
     constructor(props) {
@@ -22,26 +30,36 @@ class TopicList extends Component {
         this.dataSource = new ListView.DataSource({
             rowHasChanged: (r1, r2) => r1 !== r2
         })
+        this.state = initialState
+        this.help = new TopicListHelper(props)
     }
 
-    static propTypes = {}
+    static propTypes = {
+        limit: PropTypes.number,
+        mdrender: PropTypes.bool,
+        tab: PropTypes.string
+    }
 
     static defaultProps = {}
 
     componentDidMount() {
-        const {actions, options} = this.props;
-        actions.fetchTopicList(options);
+        this.help.getData({
+            page: this.state.data.length
+        }).then(data=>{
+            this.setState({
+                data: this.state.data.concat(data),
+                isFetching: false
+            })
+        })
     }
 
     componentWillReceiveProps(nextProps) {
-        if(this.props.options.tab != nextProps.options.tab){
-            const {actions, options} = this.props;
-            actions.fetchTopicList(nextProps.options);
-        }
+        this.help.updateHelper(nextProps);
+        this.setState(initialState)
     }
 
     render() {
-        const {data} = this.props;
+        const {data} = this.state
         return (
             <View style={styles.container}>
                 <ListView
@@ -68,15 +86,8 @@ class TopicList extends Component {
         );
     }
 
-    _onEndReachedHandler() {
-        if (this.props.data.length > 0) {
-            const {actions, options} = this.props;
-            actions.fetchTopicList(options);
-        }
-    }
-
     _renderFooterHandler(){
-        if(this.props.isFetching){
+        if(this.state.isFetching){
             return (
                 <View style={styles.loadingContainer}>
                     <Image
@@ -88,6 +99,20 @@ class TopicList extends Component {
         }else {
             return null;
         }
+    }
+
+    _onEndReachedHandler() {
+        this.setState({
+            isFetching: true
+        })
+        this.help.getData({
+            page: this.state.data.length
+        }).then(data=>{
+            this.setState({
+                data: this.state.data.concat(data),
+                isFetching: false
+            })
+        })
     }
 }
 
