@@ -1,4 +1,4 @@
-import React,{Component} from 'react'
+import React, {Component} from 'react'
 import {
     View,
     Text,
@@ -6,6 +6,7 @@ import {
     TouchableWithoutFeedback,
     StyleSheet
 } from 'react-native'
+import {headerStyle} from '../../constant/Constant'
 import CategoryContainer from '../../container/CategoryContainer'
 import TopicListContainer from '../../container/TopicListContainer'
 
@@ -19,6 +20,7 @@ class Home extends Component {
     static navigationOptions = ({navigation}) => {
         return {
             title: '首页',
+            headerStyle: headerStyle,
             headerLeft: <CategoryContainer
                 navigation={navigation}
             />

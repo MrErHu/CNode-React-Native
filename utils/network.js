@@ -14,7 +14,7 @@ export const get = (url) =>{
 
 export const post = (url, body)=>{
     const fetchOptions = {
-        type: 'POST',
+        method: 'POST',
         credentials: 'include',
         headers: {
             'Accept': 'application/json',

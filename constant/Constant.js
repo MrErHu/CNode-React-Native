@@ -14,3 +14,8 @@ export const funcContrast = {
     set: '设置',
     about: '关于'
 }
+
+
+export const headerStyle = {
+    backgroundColor: '#F8F8F8'
+}

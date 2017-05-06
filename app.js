@@ -11,7 +11,7 @@ import {StackNavigator} from 'react-navigation'
 import configureStore from './store'
 import Portal from './base/Portal'
 
-import Home from './component/Home'
+import Home from './container/HomeContainer'
 import Login from './container/LoginContainer'
 
 

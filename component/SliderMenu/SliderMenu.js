@@ -13,6 +13,7 @@ import {
 import Portal from '../../base/Portal'
 const {width:windowWidth, height:windowHeight} = Dimensions.get('window')
 import {TabContrast, funcContrast} from '../../constant/Constant'
+import UserInfo from './UserInfo'
 
 
 class SliderMenu extends Component {
@@ -56,7 +57,7 @@ class SliderMenu extends Component {
                     <Animated.View
                         style={[styles.content,{width: this.state.width}]}
                     >
-                        <UserInFo
+                        <UserInfo
                             {...login}
                             navigation={navigation}
                             onRequestClose={onRequestClose}
@@ -128,47 +129,6 @@ class SliderMenu extends Component {
     }
 }
 
-const UserInFo = (props) => {
-    const {isLogin,navigation,onRequestClose} = props
-    if (isLogin === false) {
-        return (
-            <View style={styles.userWithoutLoginView}>
-                <TouchableWithoutFeedback
-                    onPress={
-                        ()=>{
-                            onRequestClose(navigation.navigate('Login'));
-                        }
-                    }
-                >
-                    <View style={styles.userWithoutLoginContainer}>
-                        <Image
-                            source={require('../../asset/image/login.png')}
-                            style={styles.userWithoutLoginContent}
-                        />
-                    </View>
-                </TouchableWithoutFeedback>
-            </View>
-        )
-    } else {
-        return (
-            <View style={[styles.userContent,styles.border]}>
-                <View style={styles.avatarView}>
-                </View>
-                <View style={styles.userInfoView}>
-                    <View style={styles.userInfoViewLeft}>
-                        <Text style={styles.userInfoViewLeftText}>TakWolf</Text>
-                        <Text style={styles.userInfoViewLeftText}>积分: 370</Text>
-                    </View>
-                    <View style={styles.userInfoViewRight}>
-                        <Text>注销</Text>
-                    </View>
-                </View>
-            </View>
-        )
-    }
-}
-
-
 const styles = StyleSheet.create({
     container: {
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
@@ -178,11 +138,6 @@ const styles = StyleSheet.create({
     content: {
         backgroundColor: '#FFFFFF',
         height: windowHeight,
-        flexDirection: 'column'
-    },
-    userContent: {
-        flex: 3,
-        paddingTop: 20,
         flexDirection: 'column'
     },
     buttonView: {
@@ -211,46 +166,7 @@ const styles = StyleSheet.create({
     border: {
         borderBottomWidth: 2,
         borderBottomColor: '#cccccc'
-    },
-    avatarView: {
-        flex: 2
-    },
-    userInfoView: {
-        flex: 1,
-        flexDirection: 'row'
-    },
-    userInfoViewLeft: {
-        flex: 2,
-        flexDirection: 'column'
-    },
-    userInfoViewLeftText: {
-        flex: 1,
-        marginLeft: 20
-    },
-    userInfoViewRight: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    userWithoutLoginView: {
-        flex: 3,
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingTop: 20
-    },
-    userWithoutLoginContainer: {
-        width: 80,
-        height: 80,
-        borderRadius: 40,
-        backgroundColor: '#00bcd4',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    userWithoutLoginContent: {
-        width: 32,
-        height: 32,
-    },
+    }
 })
 
 const ImagePath = {
