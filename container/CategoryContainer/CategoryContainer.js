@@ -16,13 +16,15 @@ class Category extends Component{
     }
 
     render(){
-        const {tab,actions} = this.props;
+        const {tab,actions,login,navigation} = this.props;
         return (
             <TouchableWithoutFeedback
                 onPress={()=>{
                 SliderMenu.showSliderMenuWithOptions({
                     tab,
-                    actions
+                    login,
+                    actions,
+                    navigation
                 });
             }}
             >
@@ -44,9 +46,11 @@ const styles = StyleSheet.create({
     }
 })
 
-const mapStateToProps = (state) =>{
+const mapStateToProps = (state,ownProps) =>{
     return {
-        tab: state.getIn(['topicList','tab'])
+        tab: state.getIn(['topicList','tab']),
+        login: state.get('login').toJS(),
+        ...ownProps
     }
 }
 

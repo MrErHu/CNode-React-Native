@@ -10,7 +10,10 @@ import {Provider, connect} from 'react-redux'
 import {StackNavigator} from 'react-navigation'
 import configureStore from './store'
 import Portal from './base/Portal'
+
 import Home from './component/Home'
+import Login from './container/LoginContainer'
+
 
 
 const store = configureStore()
@@ -19,6 +22,9 @@ const store = configureStore()
 const NavigatorApp = StackNavigator({
     Home: {
         screen: Home
+    },
+    Login: {
+        screen: Login
     }
 })
 

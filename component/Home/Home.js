@@ -16,10 +16,12 @@ class Home extends Component {
         super(props);
     }
 
-    static navigationOptions = (navigation) => {
+    static navigationOptions = ({navigation}) => {
         return {
             title: '首页',
-            headerLeft: <CategoryContainer />
+            headerLeft: <CategoryContainer
+                navigation={navigation}
+            />
         }
     }
 

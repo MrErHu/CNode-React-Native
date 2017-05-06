@@ -49,28 +49,18 @@ class SliderMenu extends Component {
     }
 
     render() {
-        const {tab,onRequestClose} = this.props;
+        const {tab, login, navigation, onRequestClose} = this.props;
         return (
             <TouchableWithoutFeedback onPress={()=>{this._closeSliderMenu(onRequestClose)}}>
                 <View style={styles.container}>
                     <Animated.View
                         style={[styles.content,{width: this.state.width}]}
                     >
-                        <View style={[styles.userContent,styles.border]}>
-                            <View style={styles.avatarView}>
-
-                            </View>
-                            <View style={styles.userInfoView}>
-                                <View style={styles.userInfoViewLeft}>
-                                    <Text style={styles.userInfoViewLeftText}>TakWolf</Text>
-                                    <Text style={styles.userInfoViewLeftText}>积分: 370</Text>
-                                </View>
-                                <View style={styles.userInfoViewRight}>
-                                    <Text>注销</Text>
-                                </View>
-
-                            </View>
-                        </View>
+                        <UserInFo
+                            {...login}
+                            navigation={navigation}
+                            onRequestClose={onRequestClose}
+                        />
                         {
                             Object.keys(TabContrast).map((key) => {
                                 return (
@@ -119,25 +109,65 @@ class SliderMenu extends Component {
         )
     }
 
-    _tabChangeHandler(tab){
-        const {actions,onRequestClose} = this.props;
+    _tabChangeHandler(tab) {
+        const {actions, onRequestClose} = this.props;
         actions.updateTab(tab);
         this._closeSliderMenu(onRequestClose)
     }
 
-    _closeSliderMenu(callback){
+    _closeSliderMenu(callback) {
         Animated.timing(
             this.state.width,
             {
                 duration: 500,
                 toValue: 0
             }
-        ).start(()=>{
+        ).start(() => {
             callback()
         });
     }
-
 }
+
+const UserInFo = (props) => {
+    const {isLogin,navigation,onRequestClose} = props
+    if (isLogin === false) {
+        return (
+            <View style={styles.userWithoutLoginView}>
+                <TouchableWithoutFeedback
+                    onPress={
+                        ()=>{
+                            onRequestClose(navigation.navigate('Login'));
+                        }
+                    }
+                >
+                    <View style={styles.userWithoutLoginContainer}>
+                        <Image
+                            source={require('../../asset/image/login.png')}
+                            style={styles.userWithoutLoginContent}
+                        />
+                    </View>
+                </TouchableWithoutFeedback>
+            </View>
+        )
+    } else {
+        return (
+            <View style={[styles.userContent,styles.border]}>
+                <View style={styles.avatarView}>
+                </View>
+                <View style={styles.userInfoView}>
+                    <View style={styles.userInfoViewLeft}>
+                        <Text style={styles.userInfoViewLeftText}>TakWolf</Text>
+                        <Text style={styles.userInfoViewLeftText}>积分: 370</Text>
+                    </View>
+                    <View style={styles.userInfoViewRight}>
+                        <Text>注销</Text>
+                    </View>
+                </View>
+            </View>
+        )
+    }
+}
+
 
 const styles = StyleSheet.create({
     container: {
@@ -201,7 +231,26 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center'
-    }
+    },
+    userWithoutLoginView: {
+        flex: 3,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingTop: 20
+    },
+    userWithoutLoginContainer: {
+        width: 80,
+        height: 80,
+        borderRadius: 40,
+        backgroundColor: '#00bcd4',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    userWithoutLoginContent: {
+        width: 32,
+        height: 32,
+    },
 })
 
 const ImagePath = {

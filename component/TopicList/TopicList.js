@@ -54,8 +54,18 @@ class TopicList extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        this.help.updateHelper(nextProps);
-        this.setState(initialState)
+        if(nextProps.tab !== this.props.tab){
+            this.help.updateHelper(nextProps)
+            this.setState(initialState)
+            this.help.getData({
+                page: this.state.data.length
+            }).then(data=>{
+                this.setState({
+                    data: this.state.data.concat(data),
+                    isFetching: false
+                })
+            })
+        }
     }
 
     render() {
