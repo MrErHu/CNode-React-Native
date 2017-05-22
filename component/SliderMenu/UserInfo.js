@@ -1,4 +1,4 @@
-import React,{Component}from 'react'
+import React, {Component}from 'react'
 import {
     View,
     Text,
@@ -11,9 +11,8 @@ import {
     TouchableWithoutFeedback
 }from 'react-native'
 
-
 const UserInfo = (props) => {
-    const {isLogin,navigation,onRequestClose} = props
+    const {isLogin, navigation, onRequestClose} = props
     if (isLogin === false) {
         return (
             <View style={styles.userWithoutLoginView}>
@@ -34,14 +33,25 @@ const UserInfo = (props) => {
             </View>
         )
     } else {
-        const {loginname,avatar_url} = props;
+        const {loginname, avatar_url} = props;
         return (
             <View style={[styles.userContent,styles.border]}>
                 <View style={styles.avatarView}>
-                    <Image
-                        style={styles.userAvatar}
-                        source={{uri: `${avatar_url}`}}
-                    />
+                    <TouchableWithoutFeedback
+                        onPress={
+                           ()=>{
+                               onRequestClose(navigation.navigate('UserContent',{
+                                   title: '我的主页',
+                                   userName: loginname
+                               }));
+                           }
+                        }
+                    >
+                        <Image
+                            style={styles.userAvatar}
+                            source={{uri: `${avatar_url}`}}
+                        />
+                    </TouchableWithoutFeedback>
                 </View>
                 <View style={styles.userInfoView}>
                     <View style={styles.userInfoViewLeft}>

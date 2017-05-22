@@ -11,6 +11,8 @@ import {StackNavigator} from 'react-navigation'
 import configureStore from './store'
 import Portal from './base/Portal'
 
+import UserContent from './component/UserContent'
+
 import Home from './container/HomeContainer'
 import Login from './container/LoginContainer'
 
@@ -25,6 +27,9 @@ const NavigatorApp = StackNavigator({
     },
     Login: {
         screen: Login
+    },
+    UserContent: {
+        screen: UserContent
     }
 })
 

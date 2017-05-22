@@ -61,7 +61,6 @@ class TopicListItem extends Component {
     }
 }
 
-
 const styles = StyleSheet.create({
     container: {
         height: 100,
