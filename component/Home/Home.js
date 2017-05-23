@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component,PropTypes} from 'react'
 import {
     View,
     Text,
@@ -16,6 +16,17 @@ class Home extends Component {
     constructor(props) {
         super(props);
     }
+
+    static childContextTypes = {
+        navigation: PropTypes.object
+    }
+
+    getChildContext() {
+        return {
+            navigation: this.props.navigation
+        };
+    }
+
 
     static navigationOptions = ({navigation}) => {
         return {

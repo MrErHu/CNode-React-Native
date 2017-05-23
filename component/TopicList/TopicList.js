@@ -22,8 +22,8 @@ const initialState = {
 @mixin(PureRenderMixin)
 class TopicList extends Component {
 
-    constructor(props) {
-        super(props);
+    constructor(props,context) {
+        super(props,context);
         this._renderTopicItem = this._renderTopicItem.bind(this)
         this._onEndReachedHandler = this._onEndReachedHandler.bind(this)
         this._renderFooterHandler = this._renderFooterHandler.bind(this)

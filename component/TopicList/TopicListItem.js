@@ -1,11 +1,12 @@
-import React, {Component} from 'react'
+import React, {Component,PropTypes} from 'react'
 import {decorate as mixin} from 'react-mixin'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
 import {
     View,
     Text,
     Image,
-    StyleSheet
+    StyleSheet,
+    TouchableWithoutFeedback
 } from 'react-native'
 import moment from 'moment'
 import 'moment/locale/zh-cn'
@@ -15,8 +16,13 @@ moment.locale('zh-cn')
 @mixin(PureRenderMixin)
 class TopicListItem extends Component {
 
-    constructor(props) {
-        super(props)
+    constructor(props,context) {
+        super(props,context)
+        this._avatarImageOnPress = this._avatarImageOnPress.bind(this)
+    }
+
+    static contextTypes = {
+        navigation: PropTypes.object
     }
 
     render() {
@@ -38,13 +44,17 @@ class TopicListItem extends Component {
                     </Text>
                 </View>
                 <View style={styles.detail}>
-                    <Image
-                        style={styles.avatar}
-                        source={{uri: author.avatar_url}}
-                    />
+                    <TouchableWithoutFeedback
+                        onPress={this._avatarImageOnPress}
+                    >
+                        <Image
+                            style={styles.avatar}
+                            source={{uri: author.avatar_url}}
+                        />
+                    </TouchableWithoutFeedback>
                     <View style={styles.centerContent}>
                         <Text style={styles.detailText}>{author.loginname}</Text>
-                        <Text style={styles.detailText}>{'创建于: ' +moment(create_at).locale('de').format('ll')}</Text>
+                        <Text style={styles.detailText}>{'创建于: ' + moment(create_at).locale('de').format('ll')}</Text>
                     </View>
                     <View style={styles.rightContent}>
                         <Text style={styles.detailText}>
@@ -58,6 +68,15 @@ class TopicListItem extends Component {
                 </View>
             </View>
         );
+    }
+
+    _avatarImageOnPress(){
+        const {navigation} = this.context
+        const {author} = this.props
+        navigation.navigate('UserContent',{
+            title:  `${author.loginname}的主页`,
+            userName: author.loginname
+        })
     }
 }
 
