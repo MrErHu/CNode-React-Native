@@ -5,6 +5,7 @@ import {URL_PREFIX} from '../../constant/Constant'
 let requestURL =  URL_PREFIX + '/topics?'
 
 class TopicListHelper{
+
     constructor(props){
         this.props = props;
         this.getData = this.getData.bind(this)
@@ -14,7 +15,7 @@ class TopicListHelper{
         this.props = nextProps;
     }
 
-    getData(options){
+    async getData(options){
         let url = requestURL
         const {limit,mdrender,tab} = this.props
         let keys = Object.keys(options);
@@ -24,7 +25,10 @@ class TopicListHelper{
         url += `limit=${limit}&`
         url += `mdrender=${mdrender}&`
         url += `tab=${tab}`
-        return get(url).then(json=>json.data)
+        const data = await get(url);
+        if(data.success){
+            return data.data
+        }
     }
 }
 

@@ -4,13 +4,12 @@ import {URL_PREFIX} from '../../constant/Constant'
 
 class UserContentHelper {
 
-    getData(userName){
+    async getData(userName){
         const url = `${URL_PREFIX}/user/${userName}`
-        return get(url).then((data)=>{
-            if(data.success){
-                return data.data
-            }
-        })
+        const data = await get(url)
+        if(data.success){
+            return data.data
+        }
     }
 }
 
