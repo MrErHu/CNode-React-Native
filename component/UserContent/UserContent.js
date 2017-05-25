@@ -1,15 +1,15 @@
-import React,{Component,PropTypes}from 'react'
+import React, {Component, PropTypes}from 'react'
 import {
-    View
+    View,
+    StyleSheet
 }from 'react-native'
 import {headerStyle}from '../../constant/Constant'
 import UserContentComponent from './UserContentComponent'
 import UserContentHelper from './UserContentHelper'
 
+class UserContent extends Component {
 
-class UserContent extends Component{
-
-    constructor(props){
+    constructor(props) {
         super(props)
         this._helper = new UserContentHelper()
         this.state = {}
@@ -22,29 +22,40 @@ class UserContent extends Component{
     static navigationOptions = ({navigation}) => {
         return {
             title: navigation.state.params.title,
-            headerStyle: headerStyle
+            headerStyle: headerStyle,
         }
     }
 
-    componentWillMount(){
+    componentWillMount() {
         const {userName} = this.props.navigation.state.params;
-        this._helper.getData(userName).then((data)=>{
+        this._helper.getData(userName).then((data) => {
             this.setState({
                 data: data
             })
         })
     }
 
-    render(){
-        if(this.state.data){
+    render() {
+        if (this.state.data) {
             return (
-                <UserContentComponent
-                    {...this.state.data}
-                />
+                <View
+                    style={styles.container}
+                >
+                    <UserContentComponent
+                        {...this.state.data}
+                    />
+                </View>
             )
         }
         return null
     }
 }
+
+const styles = StyleSheet.create({
+    container: {
+        backgroundColor: '#FFF',
+        flex: 1
+    }
+})
 
 export default UserContent

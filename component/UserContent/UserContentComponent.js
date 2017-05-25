@@ -1,4 +1,4 @@
-import React,{Component,PropTypes} from 'react'
+import React, {Component, PropTypes} from 'react'
 import {
     View,
     Image,
@@ -9,11 +9,19 @@ import {
 } from 'react-native'
 import moment from 'moment'
 import 'moment/locale/zh-cn'
+import ButtonView from '../../base/ButtonView'
+
 moment.locale('zh-cn')
 
-class UserContentComponent extends Component{
+const keyToName = {
+    recent_topics: '最近创建',
+    recent_replies: '最近回复',
+    topic_collect: '收藏'
+}
 
-    constructor(props){
+class UserContentComponent extends Component {
+
+    constructor(props) {
         super(props);
         this.state = {
             display: "recent_topics"
@@ -25,8 +33,8 @@ class UserContentComponent extends Component{
         this._onButtonViewHandler = this._onButtonViewHandler.bind(this)
     }
 
-    render(){
-        const {avatar_url,loginname,create_at,score} = this.props;
+    render() {
+        const {avatar_url, loginname, create_at, score} = this.props;
         return (
             <View style={styles.userContentContainer}>
                 <View style={styles.userAvatarContainer}>
@@ -44,30 +52,24 @@ class UserContentComponent extends Component{
                 </View>
                 <View style={styles.topicItemContainer}>
                     <View style={styles.buttonGroup}>
-                        <TouchableWithoutFeedback
-                            style={styles.buttonView}
-                            onPress={this._onButtonViewHandler.bind(this,"recent_topics")}
-                        >
-                            <View>
-                                <Text
-                                    numberOfLines={1}
-                                    ellipsizeMode='tail'
-                                >最近创建
-                                </Text>
-                            </View>
-                        </TouchableWithoutFeedback>
-                        <TouchableWithoutFeedback
-                            style={styles.buttonView}
-                            onPress={this._onButtonViewHandler.bind(this,"recent_replies")}
-                        >
-                            <View>
-                                <Text
-                                    numberOfLines={1}
-                                    ellipsizeMode='tail'
-                                >最近回复
-                                </Text>
-                            </View>
-                        </TouchableWithoutFeedback>
+                        {
+                            Object.keys(keyToName).map((key, index) => {
+                                return (
+                                    <ButtonView
+                                        key={index}
+                                        style={styles.buttonView}
+                                        effect={ButtonView.EFFECT.DEFAULT}
+                                        selected={key=== this.state.display}
+                                        selectedStyle={styles.selectedStyle}
+                                        onPress={this._onButtonViewHandler.bind(this,key)}
+                                    >
+                                        <Text style={styles.buttonText}>
+                                            {keyToName[key]}
+                                        </Text>
+                                    </ButtonView>
+                                )
+                            })
+                        }
                     </View>
                     <View style={styles.topicContainer}>
                         <ListView
@@ -80,17 +82,24 @@ class UserContentComponent extends Component{
         )
     }
 
-    _onButtonViewHandler(display){
+    _onButtonViewHandler(display) {
         this.setState({
             display
         })
     }
 
-    _renderRow(rowData, sectionID, rowID){
-        return(
-            <View style={styles.topicItem}>
-                <Text>{rowData.title}</Text>
-            </View>
+    _renderRow(rowData, sectionID, rowID) {
+        return (
+            <ButtonView
+                style={styles.topicItem}
+            >
+                <Text
+                    numberOfLines={1}
+                    ellipsizeMode={'tail'}
+                >
+                    {rowData.title}
+                </Text>
+            </ButtonView>
         )
     }
 }
@@ -98,7 +107,7 @@ class UserContentComponent extends Component{
 export default UserContentComponent
 
 const styles = StyleSheet.create({
-    userContentContainer:{
+    userContentContainer: {
         flex: 1
     },
     userAvatarContainer: {
@@ -118,9 +127,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
-    userBottomText: {
-
-    },
+    userBottomText: {},
     userName: {
         fontSize: 14,
         fontWeight: 'bold',
@@ -147,17 +154,25 @@ const styles = StyleSheet.create({
     buttonView: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        borderWidth: 0.5,
+        borderColor: '#666'
     },
-    topicContainer:{
+    topicContainer: {
         flex: 1
     },
     topicItem: {
         height: 50,
-        justifyContent: 'center',
+        flexDirection: 'row',
         alignItems: 'center',
+        paddingLeft: 20,
+        paddingRight: 20,
         borderBottomWidth: 0.5,
         borderBottomColor: '#666'
+    },
+    selectedStyle: {
+        borderBottomWidth: 4,
+        borderBottomColor: '#387ef5'
     }
 })
 

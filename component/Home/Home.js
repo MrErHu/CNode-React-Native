@@ -10,7 +10,6 @@ import {headerStyle} from '../../constant/Constant'
 import CategoryContainer from '../../container/CategoryContainer'
 import TopicListContainer from '../../container/TopicListContainer'
 
-
 class Home extends Component {
 
     constructor(props) {
