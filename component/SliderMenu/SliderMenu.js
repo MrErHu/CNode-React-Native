@@ -15,11 +15,10 @@ const {width:windowWidth, height:windowHeight} = Dimensions.get('window')
 import {TabContrast, funcContrast} from '../../constant/Constant'
 import UserInfo from './UserInfo'
 
-
 class SliderMenu extends Component {
 
-    constructor(props) {
-        super(props)
+    constructor(props,context) {
+        super(props,context)
         this.state = {
             width: new Animated.Value(0)
         }
@@ -40,6 +39,17 @@ class SliderMenu extends Component {
                 Portal.closeModal(tag)
             }}
         />)
+    }
+
+    static childContextTypes = {
+        actions: PropTypes.object
+    }
+
+    getChildContext(){
+        const {actions} = this.props;
+        return {
+            actions
+        }
     }
 
     componentDidMount() {

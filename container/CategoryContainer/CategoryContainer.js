@@ -6,6 +6,7 @@ import {
 }from 'react-native'
 import SliderMenu from '../../component/SliderMenu'
 import {updateTab} from '../../action/topicListAction'
+import {logout} from '../../action/loginAction'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 
@@ -55,9 +56,7 @@ const mapStateToProps = (state,ownProps) =>{
 }
 
 const mapDispatchToProps = (dispatch) => {
-    const actions = {
-        updateTab
-    }
+    const actions = {updateTab,logout}
     return {
         actions: bindActionCreators(actions,dispatch)
     }

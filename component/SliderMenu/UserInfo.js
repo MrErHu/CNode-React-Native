@@ -1,4 +1,4 @@
-import React, {Component}from 'react'
+import React, {Component,PropTypes}from 'react'
 import {
     View,
     Text,
@@ -11,59 +11,82 @@ import {
     TouchableWithoutFeedback
 }from 'react-native'
 
-const UserInfo = (props) => {
-    const {isLogin, navigation, onRequestClose} = props
-    if (isLogin === false) {
-        return (
-            <View style={styles.userWithoutLoginView}>
-                <TouchableWithoutFeedback
-                    onPress={
-                        ()=>{
-                            onRequestClose(navigation.navigate('Login'));
-                        }
-                    }
-                >
-                    <View style={styles.userWithoutLoginContainer}>
-                        <Image
-                            source={require('../../asset/image/login.png')}
-                            style={styles.userWithoutLoginContent}
-                        />
-                    </View>
-                </TouchableWithoutFeedback>
-            </View>
-        )
-    } else {
-        const {loginname, avatar_url} = props;
-        return (
-            <View style={[styles.userContent,styles.border]}>
-                <View style={styles.avatarView}>
+import ButtonView from '../../base/ButtonView'
+
+class UserInfo extends Component{
+
+    constructor(props,context){
+        super(props,context)
+        this._loginHandler = this._loginHandler.bind(this)
+        this._navigateUserScreen = this._navigateUserScreen.bind(this)
+        this._logoutHandler = this._logoutHandler.bind(this)
+    }
+
+    static contextTypes = {
+        actions: PropTypes.object
+    }
+
+    render(){
+        const {isLogin,loginname, avatar_url} = this.props
+        if (isLogin === false) {
+            return (
+                <View style={styles.userWithoutLoginView}>
                     <TouchableWithoutFeedback
-                        onPress={
-                           ()=>{
-                               onRequestClose(navigation.navigate('UserContent',{
-                                   title: '我的主页',
-                                   userName: loginname
-                               }));
-                           }
-                        }
+                        onPress={this._loginHandler}
                     >
-                        <Image
-                            style={styles.userAvatar}
-                            source={{uri: `${avatar_url}`}}
-                        />
+                        <View style={styles.userWithoutLoginContainer}>
+                            <Image
+                                source={require('../../asset/image/login.png')}
+                                style={styles.userWithoutLoginContent}
+                            />
+                        </View>
                     </TouchableWithoutFeedback>
                 </View>
-                <View style={styles.userInfoView}>
-                    <View style={styles.userInfoViewLeft}>
-                        <Text style={styles.userInfoViewLeftText}>{loginname}</Text>
-                        <Text style={styles.userInfoViewLeftText}>积分: 370</Text>
+            )
+        } else {
+            return (
+                <View style={[styles.userContent,styles.border]}>
+                    <View style={styles.avatarView}>
+                        <TouchableWithoutFeedback
+                            onPress={this._navigateUserScreen}
+                        >
+                            <Image
+                                style={styles.userAvatar}
+                                source={{uri: `${avatar_url}`}}
+                            />
+                        </TouchableWithoutFeedback>
                     </View>
-                    <View style={styles.userInfoViewRight}>
-                        <Text>注销</Text>
+                    <View style={styles.userInfoView}>
+                        <View style={styles.userInfoViewLeft}>
+                            <Text>{loginname}</Text>
+                        </View>
+                        <View style={styles.userInfoViewRight}>
+                            <ButtonView onPress={this._logoutHandler}>
+                                <Text>注销</Text>
+                            </ButtonView>
+                        </View>
                     </View>
                 </View>
-            </View>
-        )
+            )
+        }
+    }
+
+    _loginHandler(){
+        const {navigation, onRequestClose} = this.props
+        onRequestClose(navigation.navigate('Login'));
+    }
+
+    _navigateUserScreen(){
+        const {navigation, onRequestClose,loginname} = this.props
+        onRequestClose(navigation.navigate('UserContent',{
+            title: '我的主页',
+            userName: loginname
+        }));
+    }
+
+    _logoutHandler(){
+        const {onRequestClose} = this.props
+        onRequestClose(this.context.actions.logout())
     }
 }
 
@@ -84,12 +107,9 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     userInfoViewLeft: {
-        flex: 2,
-        flexDirection: 'column'
-    },
-    userInfoViewLeftText: {
         flex: 1,
-        marginLeft: 20
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     userInfoViewRight: {
         flex: 1,
