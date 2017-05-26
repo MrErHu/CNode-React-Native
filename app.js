@@ -12,6 +12,7 @@ import configureStore from './store'
 import Portal from './base/Portal'
 
 import UserContent from './component/UserContent'
+import TopicDetail from './component/TopicDetail'
 
 import Home from './container/HomeContainer'
 import Login from './container/LoginContainer'
@@ -30,6 +31,9 @@ const NavigatorApp = StackNavigator({
     },
     UserContent: {
         screen: UserContent
+    },
+    TopicDetail: {
+        screen: TopicDetail
     }
 })
 
