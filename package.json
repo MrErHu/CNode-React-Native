@@ -14,8 +14,10 @@
     "react-addons-pure-render-mixin": "^15.5.2",
     "react-mixin": "^3.0.5",
     "react-native": "0.43.3",
+    "react-native-simple-markdown": "^1.0.60-rc.3",
     "react-navigation": "git+https://github.com/react-community/react-navigation.git",
     "react-redux": "^5.0.4",
+    "react-timer-mixin": "^0.13.3",
     "redux-immutablejs": "0.0.8",
     "redux-logger": "^3.0.1",
     "redux-thunk": "^2.2.0"

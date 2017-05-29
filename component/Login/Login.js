@@ -1,4 +1,4 @@
-import React,{Component}from 'react'
+import React, {Component}from 'react'
 import {
     Text,
     View,
@@ -9,13 +9,15 @@ import {
 }from 'react-native'
 import Toast from '../../base/Toast'
 import LoginHelper from './LoginHelper'
+import ButtonView from '../../base/ButtonView'
+import ActionSheet from '../../base/ActionSheet'
 import {headerStyle} from '../../constant/Constant'
 
 const textInputPlaceHolder = '请输入Access Token'
 
-class Login extends Component{
+class Login extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props)
         this.state = {
             textValue: 'f46e2ae0-1ae3-4640-9219-5a6db1263e07'
@@ -29,11 +31,11 @@ class Login extends Component{
         return {
             title: '登录',
             headerStyle: headerStyle,
-            headerRight: <ScanButton />
+            headerRight: (<ScanButton/>)
         }
     }
 
-    render(){
+    render() {
         return (
             <View style={styles.container}>
                 <View style={styles.content}>
@@ -53,24 +55,24 @@ class Login extends Component{
         )
     }
 
-    _changeTextHandler(textValue){
+    _changeTextHandler(textValue) {
         this.setState({
             textValue
         })
     }
 
-    _loginButtonPressHandler(){
+    _loginButtonPressHandler() {
         const {textValue} = this.state;
         const {navigation} = this.props;
-        this.help.doLogin(textValue).then(result=>{
-            if(result){
+        this.help.doLogin(textValue).then(result => {
+            if (result) {
                 Toast.show(
                     '登录成功',
                     Toast.DEFAULT,
                     Toast.SHORT
                 )
                 navigation.goBack();
-            }else{
+            } else {
                 Toast.show(
                     '登录失败',
                     Toast.WARNING,
@@ -83,11 +85,24 @@ class Login extends Component{
 
 
 const ScanButton = () => {
+    const handler = ()=>{
+        ActionSheet.showActionSheetWithOptions({
+            options: ['拍摄', '从手机相册选择','取消'],
+            cancelButtonIndex: 2
+        },(index)=>{
+
+        });
+    }
+
     return (
-        <Image
-            source={require('../../asset/image/scan.png')}
-            style={styles.scanImage}
-        />
+        <ButtonView
+            onPress={handler}
+        >
+            <Image
+                source={require('../../asset/image/scan.png')}
+                style={styles.scanImage}
+            />
+        </ButtonView>
     )
 }
 

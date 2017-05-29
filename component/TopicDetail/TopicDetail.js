@@ -1,4 +1,4 @@
-import React,{Component,PropTypes}from 'react'
+import React, {Component, PropTypes}from 'react'
 import {
     View,
     Text,
@@ -6,13 +6,13 @@ import {
 }from 'react-native'
 import {headerStyle} from '../../constant/Constant'
 import TopicDetailHelper from './TopicDetailHelper'
-import Markdown from 'react-native-markdown'
+import Markdown from 'react-native-simple-markdown'
 
 import Header from './Header'
 
-class TopicDetail extends Component{
+class TopicDetail extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props)
         this._helper = new TopicDetailHelper()
     }
@@ -24,25 +24,25 @@ class TopicDetail extends Component{
         }
     }
 
-    componentWillMount(){
+    componentWillMount() {
         const {topicId} = this.props.navigation.state.params
-        this._helper.getData(topicId).then((data)=>{
+        this._helper.getData(topicId).then((data) => {
             this.setState({
                 data: data
             })
         })
     }
 
-    render(){
-        if(!this.state){
+    render() {
+        if (!this.state) {
             return (
                 <View style={styles.container}>
                     <Text>Loading...</Text>
                 </View>
             )
         }
-        const {title,content} = this.state.data
-        return(
+        const {title, content} = <this className="state data"></this>
+        return (
             <View style={styles.container}>
                 <Header
                     {...this.state.data}
@@ -56,9 +56,6 @@ class TopicDetail extends Component{
                         {title}
                     </Text>
                 </View>
-                <Markdown>
-                    {content}
-                </Markdown>
             </View>
         )
 
@@ -69,7 +66,9 @@ class TopicDetail extends Component{
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#FFF'
+        backgroundColor: '#FFF',
+        paddingLeft: 10,
+        paddingRight: 10
     },
     titleContainer: {
         flexDirection: 'row',
