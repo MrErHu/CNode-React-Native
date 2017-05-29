@@ -6,6 +6,9 @@ import {
 }from 'react-native'
 import {headerStyle} from '../../constant/Constant'
 import TopicDetailHelper from './TopicDetailHelper'
+import Markdown from 'react-native-markdown'
+
+import Header from './Header'
 
 class TopicDetail extends Component{
 
@@ -30,17 +33,36 @@ class TopicDetail extends Component{
         })
     }
 
-
     render(){
         if(!this.state){
             return (
                 <View style={styles.container}>
-                    <Text>Hello Wolrd</Text>
+                    <Text>Loading...</Text>
                 </View>
             )
         }
-        console.log(JSON.stringify(this.state.data))
-        return null
+        const {title,content} = this.state.data
+        return(
+            <View style={styles.container}>
+                <Header
+                    {...this.state.data}
+                />
+                <View style={styles.titleContainer}>
+                    <Text
+                        style={styles.title}
+                        numberOfLines={1}
+                        ellipsizeMode='tail'
+                    >
+                        {title}
+                    </Text>
+                </View>
+                <Markdown>
+                    {content}
+                </Markdown>
+            </View>
+        )
+
+
     }
 }
 
@@ -48,6 +70,15 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#FFF'
+    },
+    titleContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    title: {
+        fontWeight: 'bold',
+        fontSize: 16,
     }
 })
 
