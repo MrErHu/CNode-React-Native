@@ -2,10 +2,13 @@ import React, {Component, PropTypes}from 'react'
 import {
     View,
     Text,
-    StyleSheet
+    ScrollView,
+    ListView,
+    StyleSheet,
 }from 'react-native'
 import {headerStyle} from '../../constant/Constant'
 import TopicDetailHelper from './TopicDetailHelper'
+import TopicComment from './TopicComment'
 import Markdown from 'react-native-simple-markdown'
 
 import Header from './Header'
@@ -15,6 +18,9 @@ class TopicDetail extends Component {
     constructor(props) {
         super(props)
         this._helper = new TopicDetailHelper()
+        this.dataSource = new ListView.DataSource({
+            rowHasChanged: (r1, r2) => r1 !== r2
+        })
     }
 
     static navigationOptions = ({navigation}) => {
@@ -41,25 +47,40 @@ class TopicDetail extends Component {
                 </View>
             )
         }
-        const {title, content} = <this className="state data"></this>
+        const {title, content,replies} =this.state.data
         return (
-            <View style={styles.container}>
-                <Header
-                    {...this.state.data}
-                />
-                <View style={styles.titleContainer}>
-                    <Text
-                        style={styles.title}
-                        numberOfLines={1}
-                        ellipsizeMode='tail'
-                    >
-                        {title}
-                    </Text>
-                </View>
+            <View>
+                <ScrollView style={styles.container}>
+                    <Header
+                        {...this.state.data}
+                    />
+                    <View style={styles.titleContainer}>
+                        <Text
+                            style={styles.title}
+                            numberOfLines={1}
+                            ellipsizeMode='tail'
+                        >
+                            {title}
+                        </Text>
+                    </View>
+                    <Markdown>{content}</Markdown>
+                    <View style={styles.commentContainer}>
+                        <ListView
+                            dataSource={this.dataSource.cloneWithRows(replies)}
+                            renderRow={this._renderCommentRow}
+                        />
+                    </View>
+                </ScrollView>
             </View>
         )
+    }
 
-
+    _renderCommentRow(rowData){
+        return (
+            <TopicComment
+                {...rowData}
+            />
+        )
     }
 }
 
@@ -78,6 +99,9 @@ const styles = StyleSheet.create({
     title: {
         fontWeight: 'bold',
         fontSize: 16,
+    },
+    commentContainer: {
+        paddingTop: 20,
     }
 })
 
