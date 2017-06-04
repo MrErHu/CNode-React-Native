@@ -42,6 +42,7 @@ class UserContent extends Component {
                     style={styles.container}
                 >
                     <UserContentComponent
+                        navigation = {this.props.navigation}
                         {...this.state.data}
                     />
                 </View>

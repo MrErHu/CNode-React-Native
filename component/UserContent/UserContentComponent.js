@@ -30,7 +30,9 @@ class UserContentComponent extends Component {
             rowHasChanged: (r1, r2) => r1 !== r2
         });
 
+        this._renderRow = this._renderRow.bind(this)
         this._onButtonViewHandler = this._onButtonViewHandler.bind(this)
+        this._navigateTopicDetail = this._navigateTopicDetail.bind(this)
     }
 
     render() {
@@ -92,6 +94,7 @@ class UserContentComponent extends Component {
         return (
             <ButtonView
                 style={styles.topicItem}
+                onPress = {()=>{this._navigateTopicDetail(rowData)}}
             >
                 <Text
                     numberOfLines={1}
@@ -101,6 +104,15 @@ class UserContentComponent extends Component {
                 </Text>
             </ButtonView>
         )
+    }
+
+    _navigateTopicDetail(rowData){
+        const {navigation} = this.props
+        const {id} = rowData
+        navigation.navigate('TopicDetail',{
+            title: '正文',
+            topicId: id
+        })
     }
 }
 
