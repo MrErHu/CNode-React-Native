@@ -1,4 +1,4 @@
-import React,{Component}from 'react'
+import React, {Component}from 'react'
 import {
     Image,
     StyleSheet,
@@ -9,57 +9,57 @@ import {updateTab} from '../../action/topicListAction'
 import {logout} from '../../action/loginAction'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
+import IconButton from '../../base/IconButton'
 
-class Category extends Component{
+class Category extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props)
+        this._iconButtonPressHandler = this._iconButtonPressHandler.bind(this)
     }
 
-    render(){
-        const {tab,actions,login,navigation} = this.props;
+    render() {
         return (
-            <TouchableWithoutFeedback
-                onPress={()=>{
-                SliderMenu.showSliderMenuWithOptions({
-                    tab,
-                    login,
-                    actions,
-                    navigation
-                });
-            }}
-            >
-                <Image
-                    source={require('../../asset/image/category.png')}
-                    style={styles.category}
-                />
-            </TouchableWithoutFeedback>
+            <IconButton
+                name="category"
+                size={20}
+                style={styles.category}
+                onPress={this._iconButtonPressHandler}
+            />
         )
+    }
+
+    _iconButtonPressHandler() {
+        const {tab, actions, login, navigation} = this.props;
+        SliderMenu.showSliderMenuWithOptions({
+            tab,
+            login,
+            actions,
+            navigation
+        });
     }
 }
 
 const styles = StyleSheet.create({
     category: {
-        width: 20,
-        height: 20,
         marginLeft: 15,
         marginTop: 5
     }
 })
 
-const mapStateToProps = (state,ownProps) =>{
+const mapStateToProps = (state, ownProps) => {
     return {
-        tab: state.getIn(['topicList','tab']),
+        tab: state.getIn(['topicList', 'tab']),
         login: state.get('login').toJS(),
         ...ownProps
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
-    const actions = {updateTab,logout}
+    const actions = {updateTab, logout}
     return {
-        actions: bindActionCreators(actions,dispatch)
+        actions: bindActionCreators(actions, dispatch)
     }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(Category)
+export default connect(mapStateToProps, mapDispatchToProps)(Category)

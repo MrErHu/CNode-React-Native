@@ -8,8 +8,8 @@ import {
 }from 'react-native'
 import {headerStyle} from '../../constant/Constant'
 import TopicDetailHelper from './TopicDetailHelper'
+import { MarkdownView } from 'react-native-markdown-view'
 import TopicComment from './TopicComment'
-import Markdown from 'react-native-simple-markdown'
 
 import Header from './Header'
 
@@ -57,15 +57,14 @@ class TopicDetail extends Component {
                     <View style={styles.titleContainer}>
                         <Text
                             style={styles.title}
-                            numberOfLines={1}
-                            ellipsizeMode='tail'
                         >
                             {title}
                         </Text>
                     </View>
-                    <Markdown>{content}</Markdown>
+                    <MarkdownView>{content}</MarkdownView>
                     <View style={styles.commentContainer}>
                         <ListView
+                            enableEmptySections={true}
                             dataSource={this.dataSource.cloneWithRows(replies)}
                             renderRow={this._renderCommentRow}
                         />

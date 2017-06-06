@@ -18,7 +18,6 @@ const initialState = {
     isFetching: true
 }
 
-
 @mixin(PureRenderMixin)
 class TopicList extends Component {
 

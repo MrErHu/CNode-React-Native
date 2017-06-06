@@ -6,11 +6,10 @@ import {
     StyleSheet
 } from 'react-native'
 import moment from 'moment'
-import Markdown from 'react-native-simple-markdown'
+import { MarkdownView } from 'react-native-markdown-view'
 
 const TopicComment = (props)=>{
     const {author,create_at,content} = props;
-
 
     return (
         <View style={styles.commentContainer}>
@@ -28,7 +27,7 @@ const TopicComment = (props)=>{
                     <Text style={styles.timeText}>{moment(create_at).format('YYYY-M-D H:k')}</Text>
                 </View>
                 <View style={styles.rightBottomView}>
-                    <Markdown>{content}</Markdown>
+                    <MarkdownView>{content}</MarkdownView>
                 </View>
             </View>
         </View>
