@@ -8,8 +8,7 @@ const cache = {};
 
 for (let key in glyphMap) {
     const val = glyphMap[key];
-
-    cache[key] = val[0];
+    cache[key] = parseInt(val[0],10);
 }
 const IconImp = createIconSet(cache, 'Iconfont', 'Iconfont.ttf');
 

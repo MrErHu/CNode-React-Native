@@ -13,6 +13,7 @@ import {
 import Portal from '../../base/Portal'
 const {width:windowWidth, height:windowHeight} = Dimensions.get('window')
 import {TabContrast, funcContrast} from '../../constant/Constant'
+import Icon from '../../base/Icon'
 import UserInfo from './UserInfo'
 
 class SliderMenu extends Component {
@@ -82,9 +83,9 @@ class SliderMenu extends Component {
                                         onPress={this._tabChangeHandler.bind(this,key)}
                                     >
                                         <View style={[styles.button,tab === key ? styles.buttonActive: null]}>
-                                            <Image
+                                            <Icon
+                                                name={key}
                                                 style={styles.buttonIcon}
-                                                source={ImagePath[key]}
                                             />
                                             <Text style={styles.buttonText}>
                                                 {TabContrast[key]}
@@ -102,9 +103,9 @@ class SliderMenu extends Component {
                                         key={key}
                                     >
                                         <View style={styles.button}>
-                                            <Image
+                                            <Icon
+                                                name={key}
                                                 style={styles.buttonIcon}
-                                                source={ImagePath[key]}
                                             />
                                             <Text style={styles.buttonText}>
                                                 {funcContrast[key]}
@@ -162,8 +163,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#F2F2F2',
     },
     buttonIcon: {
-        width: 18,
-        height: 18,
         marginLeft: 20,
         marginRight: 30
     },

@@ -12,6 +12,7 @@ import {
 }from 'react-native'
 
 import ButtonView from '../../base/ButtonView'
+import Icon from '../../base/Icon'
 
 class UserInfo extends Component{
 
@@ -35,9 +36,8 @@ class UserInfo extends Component{
                         onPress={this._loginHandler}
                     >
                         <View style={styles.userWithoutLoginContainer}>
-                            <Image
-                                source={require('../../asset/image/login.png')}
-                                style={styles.userWithoutLoginContent}
+                            <Icon
+                                name="login"
                             />
                         </View>
                     </TouchableWithoutFeedback>
