@@ -49,8 +49,8 @@ class TopicDetail extends Component {
         }
         const {title, content,replies} =this.state.data
         return (
-            <View>
-                <ScrollView style={styles.container}>
+            <View style={styles.container}>
+                <ScrollView style={styles.scrollContainer}>
                     <Header
                         {...this.state.data}
                     />
@@ -61,7 +61,7 @@ class TopicDetail extends Component {
                             {title}
                         </Text>
                     </View>
-                    <MarkdownView>{content}</MarkdownView>
+                    {/*<MarkdownView>{content}</MarkdownView>*/}
                     <View style={styles.commentContainer}>
                         <ListView
                             enableEmptySections={true}
@@ -85,6 +85,9 @@ class TopicDetail extends Component {
 
 const styles = StyleSheet.create({
     container: {
+        flex: 1
+    },
+    scrollContainer: {
         flex: 1,
         backgroundColor: '#FFF',
         paddingLeft: 10,

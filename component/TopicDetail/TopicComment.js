@@ -1,4 +1,4 @@
-import React,{Component} from 'react'
+import React, {Component} from 'react'
 import {
     View,
     Text,
@@ -6,10 +6,11 @@ import {
     StyleSheet
 } from 'react-native'
 import moment from 'moment'
-import { MarkdownView } from 'react-native-markdown-view'
+import IconButton from '../../base/IconButton'
+import {MarkdownView} from 'react-native-markdown-view'
 
-const TopicComment = (props)=>{
-    const {author,create_at,content} = props;
+const TopicComment = (props) => {
+    const {author, create_at, content} = props;
 
     return (
         <View style={styles.commentContainer}>
@@ -20,13 +21,29 @@ const TopicComment = (props)=>{
                 />
             </View>
             <View style={styles.rightView}>
-                <View style={styles.rightTopView}>
-                    <Text style={styles.nameText}>{author.loginname}</Text>
+                <View style={styles.rightTopContainer}>
+                    <View>
+                        <View style={styles.rightTopView}>
+                            <Text style={styles.nameText}>{author.loginname}</Text>
+                        </View>
+                        <View>
+                            <Text style={styles.timeText}>{moment(create_at).format('YYYY-M-D H:k')}</Text>
+                        </View>
+                    </View>
+                    <View style={styles.operations}>
+                        <View style={styles.praiseContainer}>
+                            <IconButton
+                                name="praise"
+                            />
+                            <Text style={[styles.timeText,{marginLeft: 5}]}>10</Text>
+                        </View>
+                        <IconButton
+                            name='comment'
+                            style={{marginLeft: 5}}
+                        />
+                    </View>
                 </View>
-                <View style={styles.rightCenterView}>
-                    <Text style={styles.timeText}>{moment(create_at).format('YYYY-M-D H:k')}</Text>
-                </View>
-                <View style={styles.rightBottomView}>
+                <View >
                     <MarkdownView>{content}</MarkdownView>
                 </View>
             </View>
@@ -61,20 +78,30 @@ const styles = StyleSheet.create({
         fontSize: 13
     },
     rightTopView: {
-
-    },
-    rightCenterView: {
-
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between'
     },
     timeText: {
         fontSize: 11,
         color: '#666'
     },
-    rightBottomView: {
-
-    },
     contentText: {
         fontSize: 14
+    },
+    operations: {
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+    rightTopContainer: {
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+        justifyContent: 'space-between'
+    },
+    praiseContainer: {
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+
     }
 })
 

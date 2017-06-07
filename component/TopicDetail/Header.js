@@ -7,6 +7,7 @@ import {
 } from 'react-native'
 import moment from 'moment'
 import 'moment/locale/zh-cn'
+import IconButton from '../../base/IconButton'
 moment.locale('zh-cn')
 
 const Header = (props) => {
@@ -21,9 +22,9 @@ const Header = (props) => {
                 <Text style={styles.contentText}>{author.loginname}</Text>
                 <Text style={styles.contentText}>创建于:{moment(create_at).locale('de').format('ll')}</Text>
             </View>
-            <Image
+            <IconButton
+                name="favorite"
                 style={styles.favContainer}
-                source={require('../../asset/image/favorite.png')}
             />
         </View>
     );
@@ -53,8 +54,6 @@ const styles = StyleSheet.create({
         fontSize: 12
     },
     favContainer: {
-        width: 18,
-        height: 18,
         marginLeft: 10,
         marginRight: 10
     }

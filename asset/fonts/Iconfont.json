@@ -51,5 +51,30 @@
   "scan": [
     0xe689,
     24
+  ],
+  "favorite": [
+    0xe608,
+    18,
+    "#BFBFBF"
+  ],
+  "favorite-selected": [
+    0xe608,
+    18,
+    "#F4EA2A"
+  ],
+  "comment": [
+    0xe642,
+    13,
+    "#8A8A8A"
+  ],
+  "praise": [
+    0xe717,
+    13,
+    "#8A8A8A"
+  ],
+  "praise-selected": [
+    0xe717,
+    13,
+    "#d81e06"
   ]
 }
