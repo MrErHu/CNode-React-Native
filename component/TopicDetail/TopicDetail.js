@@ -8,7 +8,7 @@ import {
 }from 'react-native'
 import {headerStyle} from '../../constant/Constant'
 import TopicDetailHelper from './TopicDetailHelper'
-import { MarkdownView } from 'react-native-markdown-view'
+import {MarkdownView} from 'react-native-markdown-view'
 import TopicComment from './TopicComment'
 
 import Header from './Header'
@@ -30,9 +30,21 @@ class TopicDetail extends Component {
         }
     }
 
+    static childContextTypes = {
+        navigation: PropTypes.object
+    }
+
+    getChildContext(){
+        return {
+            navigation: this.props.navigation
+        }
+    }
+
     componentWillMount() {
         const {topicId} = this.props.navigation.state.params
-        this._helper.getData(topicId).then((data) => {
+        const {isLogin,accessToken:accesstoken} = this.props.login
+        const options = !isLogin ? {} : {accesstoken}
+        this._helper.getData(topicId, options).then((data) => {
             this.setState({
                 data: data
             })
@@ -47,11 +59,12 @@ class TopicDetail extends Component {
                 </View>
             )
         }
-        const {title, content,replies} =this.state.data
+        const {title, content, replies} =this.state.data
         return (
             <View style={styles.container}>
                 <ScrollView style={styles.scrollContainer}>
                     <Header
+                        login={this.props.login}
                         {...this.state.data}
                     />
                     <View style={styles.titleContainer}>
@@ -74,7 +87,7 @@ class TopicDetail extends Component {
         )
     }
 
-    _renderCommentRow(rowData){
+    _renderCommentRow(rowData) {
         return (
             <TopicComment
                 {...rowData}

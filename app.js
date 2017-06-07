@@ -12,12 +12,10 @@ import configureStore from './store'
 import Portal from './base/Portal'
 
 import UserContent from './component/UserContent'
-import TopicDetail from './component/TopicDetail'
+import TopicDetail from './container/TopicDetailContainer'
 
 import Home from './container/HomeContainer'
 import Login from './container/LoginContainer'
-
-
 
 const store = configureStore()
 
