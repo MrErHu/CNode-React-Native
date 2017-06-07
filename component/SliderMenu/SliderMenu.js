@@ -178,15 +178,4 @@ const styles = StyleSheet.create({
     }
 })
 
-const ImagePath = {
-    all: require('../../asset/image/all.png'),
-    job: require('../../asset/image/job.png'),
-    ask: require('../../asset/image/ask.png'),
-    share: require('../../asset/image/share.png'),
-    good: require('../../asset/image/good.png'),
-    message: require('../../asset/image/remind.png'),
-    set: require('../../asset/image/set.png'),
-    about: require('../../asset/image/about.png')
-}
-
 export default SliderMenu

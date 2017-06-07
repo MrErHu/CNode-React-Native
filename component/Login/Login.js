@@ -9,9 +9,9 @@ import {
 }from 'react-native'
 import Toast from '../../base/Toast'
 import LoginHelper from './LoginHelper'
-import ButtonView from '../../base/ButtonView'
 import ActionSheet from '../../base/ActionSheet'
 import {headerStyle} from '../../constant/Constant'
+import IconButton from '../../base/IconButton'
 
 const textInputPlaceHolder = '请输入Access Token'
 
@@ -95,14 +95,11 @@ const ScanButton = () => {
     }
 
     return (
-        <ButtonView
+        <IconButton
+            name="scan"
+            style={styles.scanImage}
             onPress={handler}
-        >
-            <Image
-                source={require('../../asset/image/scan.png')}
-                style={styles.scanImage}
-            />
-        </ButtonView>
+        />
     )
 }
 
@@ -127,8 +124,6 @@ const styles = StyleSheet.create({
         padding: 5
     },
     scanImage: {
-        width: 24,
-        height: 24,
         margin: 12
     },
     headerStyle: {
