@@ -34,6 +34,7 @@ class Header extends Component {
 
     render() {
         const {author, create_at} = this.props;
+        console.log('this.state.is_collect',this.state.is_collect);
         return (
             <View style={styles.headerContainer}>
                 <Image
@@ -49,6 +50,7 @@ class Header extends Component {
                     style={styles.favContainer}
                     selected={this.state.is_collect}
                     onPress={this._onPressHandler}
+                    control={true}
                 />
             </View>
         );

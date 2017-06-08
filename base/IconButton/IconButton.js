@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component, PropTypes} from 'react'
 import {
     StyleSheet,
     View
@@ -20,16 +20,20 @@ class IconButton extends Component {
     }
 
     static defaultProps = {
-        effect: ButtonView.EFFECT.DEFAULT
+        effect: ButtonView.EFFECT.DEFAULT,
+        selected: false,
+        control: false
     }
 
     _onChange(selected) {
-        const {onChange} = this.props;
-        this.setState({
-            selected: !this.state.selected
-        }, () => {
-            onChange && onChange(this.state.selected)
-        })
+        const {onChange, control} = this.props;
+        if (control !== true) {
+            this.setState({
+                selected: !this.state.selected
+            }, () => {
+                onChange && onChange(this.state.selected)
+            })
+        }
     }
 
     _onPressIn(e) {
@@ -66,9 +70,9 @@ class IconButton extends Component {
         return this.state.selected === true && Icon.hasSelectedIcon(this.props.name)
     }
 
-    componentWillReceiveProps(nextProp){
+    componentWillReceiveProps(nextProp) {
         const {selected} = nextProp;
-        if(typeof selected === 'boolean' && selected !== this.props.selected){
+        if (typeof selected === 'boolean' && selected !== this.props.selected) {
             this.setState({selected})
         }
     }
