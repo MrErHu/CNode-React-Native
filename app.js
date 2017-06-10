@@ -16,6 +16,7 @@ import TopicDetail from './container/TopicDetailContainer'
 
 import Home from './container/HomeContainer'
 import Login from './container/LoginContainer'
+import About from './component/About'
 
 const store = configureStore()
 
@@ -32,6 +33,9 @@ const NavigatorApp = StackNavigator({
     },
     TopicDetail: {
         screen: TopicDetail
+    },
+    About: {
+        screen: About
     }
 })
 

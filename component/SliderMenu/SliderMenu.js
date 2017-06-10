@@ -11,10 +11,11 @@ import {
     TouchableWithoutFeedback
 } from 'react-native'
 import Portal from '../../base/Portal'
-const {width:windowWidth, height:windowHeight} = Dimensions.get('window')
 import {TabContrast, funcContrast} from '../../constant/Constant'
 import Icon from '../../base/Icon'
 import UserInfo from './UserInfo'
+
+const {width:windowWidth, height:windowHeight} = Dimensions.get('window')
 
 class SliderMenu extends Component {
 
@@ -23,6 +24,7 @@ class SliderMenu extends Component {
         this.state = {
             width: new Animated.Value(0)
         }
+        this._menuPressHandler = this._menuPressHandler.bind(this)
         this._closeSliderMenu = this._closeSliderMenu.bind(this)
     }
 
@@ -100,7 +102,9 @@ class SliderMenu extends Component {
                                 return (
                                     <TouchableHighlight
                                         style={styles.buttonView}
+                                        underlayColor={'#F2F2F2'}
                                         key={key}
+                                        onPress={this._menuPressHandler.bind(this,key)}
                                     >
                                         <View style={styles.button}>
                                             <Icon
@@ -125,6 +129,21 @@ class SliderMenu extends Component {
         const {actions, onRequestClose} = this.props;
         actions.updateTab(tab);
         this._closeSliderMenu(onRequestClose)
+    }
+
+    _menuPressHandler(tab){
+        const {onRequestClose,navigation} = this.props;
+
+        switch (tab){
+            case 'about':
+                navigation.navigate('About');
+                break;
+            case 'set':
+                ;
+            case 'message':
+                ;
+        }
+        this._closeSliderMenu(onRequestClose);
     }
 
     _closeSliderMenu(callback) {
