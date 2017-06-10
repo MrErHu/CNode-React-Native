@@ -7,6 +7,7 @@ import {
 } from 'react-native'
 import Icon from '../../base/Icon'
 import IconButton from '../../base/IconButton'
+import {headerStyle} from '../../constant/Constant'
 
 class About extends Component {
 
@@ -18,6 +19,7 @@ class About extends Component {
     static navigationOptions = ({navigation}) => {
         return {
             title: '关于',
+            headerStyle: headerStyle
         }
     }
 

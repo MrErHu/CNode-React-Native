@@ -12,6 +12,7 @@ import moment from 'moment'
 import 'moment/locale/zh-cn'
 import {TabContrast} from '../../constant/Constant'
 import ButtonView from '../../base/ButtonView'
+import IconButton from '../../base/IconButton'
 moment.locale('zh-cn')
 
 @mixin(PureRenderMixin)
@@ -20,7 +21,7 @@ class TopicListItem extends Component {
     constructor(props, context) {
         super(props, context)
         this._avatarImageOnPress = this._avatarImageOnPress.bind(this)
-        this._navigateTopicDetail =this._navigateTopicDetail.bind(this)
+        this._navigateTopicDetail = this._navigateTopicDetail.bind(this)
     }
 
     static contextTypes = {
@@ -50,14 +51,11 @@ class TopicListItem extends Component {
                         </Text>
                     </View>
                     <View style={styles.detail}>
-                        <TouchableWithoutFeedback
+                        <IconButton
+                            iconStyle={styles.avatar}
+                            source={{uri: author.avatar_url}}
                             onPress={this._avatarImageOnPress}
-                        >
-                            <Image
-                                style={styles.avatar}
-                                source={{uri: author.avatar_url}}
-                            />
-                        </TouchableWithoutFeedback>
+                        />
                         <View style={styles.centerContent}>
                             <Text style={styles.detailText}>{author.loginname}</Text>
                             <Text
@@ -87,10 +85,10 @@ class TopicListItem extends Component {
         })
     }
 
-    _navigateTopicDetail(){
+    _navigateTopicDetail() {
         const {navigation} = this.context
         const {id} = this.props
-        navigation.navigate('TopicDetail',{
+        navigation.navigate('TopicDetail', {
             title: '正文',
             topicId: id
         })

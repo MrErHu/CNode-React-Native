@@ -78,7 +78,7 @@ class IconButton extends Component {
     }
 
     render() {
-        let {name, onChange, onPressIn, onPressOut, ...props} = this.props;
+        let {name, onChange, onPressIn, onPressOut, iconStyle, source ,...props} = this.props;
         const {selected, pressed} = this.state;
         if (this._isPressed()) {
             name = name + '-pressed';
@@ -87,7 +87,7 @@ class IconButton extends Component {
         }
         return <ButtonView {...props} onChange={this._onChange} onPressIn={this._onPressIn}
                                       onPressOut={this._onPressOut}>
-            <Icon name={name}/>
+            <Icon name={name} source = {source} style={iconStyle}/>
         </ButtonView>;
     }
 }

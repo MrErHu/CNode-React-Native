@@ -24,8 +24,9 @@ class SliderMenu extends Component {
         this.state = {
             width: new Animated.Value(0)
         }
-        this._menuPressHandler = this._menuPressHandler.bind(this)
         this._closeSliderMenu = this._closeSliderMenu.bind(this)
+        this._navigateMessage = this._navigateMessage.bind(this)
+        this._menuPressHandler = this._menuPressHandler.bind(this)
     }
 
     static propTypes = {
@@ -141,7 +142,8 @@ class SliderMenu extends Component {
             case 'set':
                 ;
             case 'message':
-                ;
+                this._navigateMessage();
+                break;
         }
         this._closeSliderMenu(onRequestClose);
     }
@@ -156,6 +158,25 @@ class SliderMenu extends Component {
         ).start(() => {
             callback()
         });
+    }
+
+    _navigateMessage(){
+        if(this._validateLogin()){
+            const {navigation} = this.props;
+            navigation.navigate('Message',{
+                login: this.props.login
+            })
+        }
+    }
+
+    _validateLogin(){
+        const {login,navigation} = this.props;
+        if(login.isLogin === false){
+            navigation.navigate('Login');
+            return false;
+        }else{
+            return true;
+        }
     }
 }
 
