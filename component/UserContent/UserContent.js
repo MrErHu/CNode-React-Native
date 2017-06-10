@@ -26,6 +26,16 @@ class UserContent extends Component {
         }
     }
 
+    static childContextTypes = {
+        navigation: PropTypes.object
+    }
+
+    getChildContext() {
+        return {
+            navigation: this.props.navigation
+        };
+    }
+
     componentWillMount() {
         const {userName} = this.props.navigation.state.params;
         this._helper.getData(userName).then((data) => {
@@ -42,7 +52,6 @@ class UserContent extends Component {
                     style={styles.container}
                 >
                     <UserContentComponent
-                        navigation = {this.props.navigation}
                         {...this.state.data}
                     />
                 </View>

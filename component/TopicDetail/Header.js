@@ -20,6 +20,7 @@ class Header extends Component {
             is_collect: props.is_collect
         }
         this._onPressHandler = this._onPressHandler.bind(this)
+        this._checkIsLogin = this._checkIsLogin.bind(this)
     }
 
     static contextTypes = {
@@ -34,7 +35,6 @@ class Header extends Component {
 
     render() {
         const {author, create_at} = this.props;
-        console.log('this.state.is_collect',this.state.is_collect);
         return (
             <View style={styles.headerContainer}>
                 <Image
@@ -57,30 +57,33 @@ class Header extends Component {
     }
 
     _onPressHandler() {
-        const {login, id} = this.props
-        if (!login.isLogin) {
-            this.setState({
-                is_collect: this.state.is_collect
-            })
-            this.context.navigation.navigate('Login');
-        } else {
-            this.operateTopic().then((data) => {
-                if (data.success) {
-                    this.setState({
-                        is_collect: !this.state.is_collect
-                    })
-                }
-            })
-
+        if (!this._checkIsLogin()) {
+            return
         }
+        this.operateTopic().then((data) => {
+            if (data.success) {
+                this.setState({
+                    is_collect: !this.state.is_collect
+                })
+            }
+        })
+
     }
 
+    _checkIsLogin() {
+        const {login} = this.props;
+        if (!login.isLogin) {
+            this.context.navigation.navigate('Login');
+            return false
+        }
+        return true
+    }
 
     async operateTopic() {
         const {id, login} = this.props
         const body = {topic_id: id, accesstoken: login.accessToken}
         let url = URL_PREFIX + '/topic_collect/'
-        url += this.state.is_collect ? 'de_collect': 'collect'
+        url += this.state.is_collect ? 'de_collect' : 'collect'
         const data = await post(url, body)
         return data
     }

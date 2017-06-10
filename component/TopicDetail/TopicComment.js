@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component, PropTypes} from 'react'
 import {
     View,
     Text,
@@ -7,50 +7,116 @@ import {
 } from 'react-native'
 import moment from 'moment'
 import IconButton from '../../base/IconButton'
+import {URL_PREFIX} from '../../constant/Constant'
+import {post} from '../../utils/network'
 import {MarkdownView} from 'react-native-markdown-view'
 
-const TopicComment = (props) => {
-    const {author, create_at, content} = props;
 
-    return (
-        <View style={styles.commentContainer}>
-            <View style={styles.avatarView}>
-                <Image
-                    style={styles.avatar}
-                    source={{uri: `${author.avatar_url}`}}
-                />
-            </View>
-            <View style={styles.rightView}>
-                <View style={styles.rightTopContainer}>
-                    <View>
-                        <View style={styles.rightTopView}>
-                            <Text style={styles.nameText}>{author.loginname}</Text>
-                        </View>
+class TopicComment extends Component {
+
+    constructor(props) {
+        super(props)
+        this.state = {
+            is_uped: props.is_uped,
+            upNum: props.ups.length
+        }
+        this._checkIsLogin = this._checkIsLogin.bind(this)
+        this.upButtonHandler = this.upButtonHandler.bind(this)
+    }
+
+    static contextTypes = {
+        navigation: PropTypes.object
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.is_uped !== this.state.is_uped) {
+            this.setState({
+                is_uped: nextProps.is_uped
+            })
+        }
+    }
+
+    render() {
+        const {author, create_at, content, is_uped, ups} = this.props;
+        return (
+            <View style={styles.commentContainer}>
+                <View style={styles.avatarView}>
+                    <Image
+                        style={styles.avatar}
+                        source={{uri: `${author.avatar_url}`}}
+                    />
+                </View>
+                <View style={styles.rightView}>
+                    <View style={styles.rightTopContainer}>
                         <View>
-                            <Text style={styles.timeText}>{moment(create_at).format('YYYY-M-D H:k')}</Text>
+                            <View style={styles.rightTopView}>
+                                <Text style={styles.nameText}>{author.loginname}</Text>
+                            </View>
+                            <View>
+                                <Text style={styles.timeText}>{moment(create_at).format('YYYY-M-D H:k')}</Text>
+                            </View>
                         </View>
-                    </View>
-                    <View style={styles.operations}>
-                        <View style={styles.praiseContainer}>
+                        <View style={styles.operations}>
+                            <View style={styles.praiseContainer}>
+                                <IconButton
+                                    name="praise"
+                                    control={true}
+                                    selected={this.state.is_uped}
+                                    onPress={this.upButtonHandler}
+                                />
+                                {
+                                    this.state.upNum === 0 ? null : <Text style={[styles.timeText,{marginLeft: 5}]}>{this.state.upNum}</Text>
+                                }
+                            </View>
                             <IconButton
-                                name="praise"
+                                name='comment'
+                                style={{marginLeft: 5}}
                             />
-                            <Text style={[styles.timeText,{marginLeft: 5}]}>10</Text>
                         </View>
-                        <IconButton
-                            name='comment'
-                            style={{marginLeft: 5}}
-                        />
                     </View>
-                </View>
-                <View >
-                    <MarkdownView>{content}</MarkdownView>
+                    <View >
+                        <MarkdownView>{content}</MarkdownView>
+                    </View>
                 </View>
             </View>
-        </View>
-    )
-}
+        )
+    }
 
+    upButtonHandler() {
+        if (!this._checkIsLogin()) {
+            return;
+        }
+        this.operatorUp().then((action) => {
+            let is_uped = false
+            if (action === 'up') {
+                is_uped = true
+            }
+            this.setState({
+                is_uped,
+                upNum: is_uped ? this.state.upNum + 1 : this.state.upNum - 1
+            })
+        })
+    }
+
+    _checkIsLogin() {
+        const {login} = this.props;
+        if (!login.isLogin) {
+            this.context.navigation.navigate('Login');
+            return false
+        }
+        return true
+    }
+
+    async operatorUp() {
+        const {login, id} = this.props;
+        const url = URL_PREFIX + `/reply/${id}/ups`
+        const data = await post(url, {accesstoken: login.accessToken})
+        if (data.success) {
+            return data.action
+        }
+    }
+
+}
 
 const styles = StyleSheet.create({
     commentContainer: {

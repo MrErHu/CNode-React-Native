@@ -9,30 +9,15 @@ import {
 } from 'react-native'
 import moment from 'moment'
 import 'moment/locale/zh-cn'
-import ButtonView from '../../base/ButtonView'
+import TopicItem from './TopicItem'
+import ScrollableTabView from 'react-native-scrollable-tab-view'
 
 moment.locale('zh-cn')
-
-const keyToName = {
-    recent_topics: '最近创建',
-    recent_replies: '最近回复',
-    topic_collect: '收藏'
-}
 
 class UserContentComponent extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            display: "recent_topics"
-        }
-        this.ds = new ListView.DataSource({
-            rowHasChanged: (r1, r2) => r1 !== r2
-        });
-
-        this._renderRow = this._renderRow.bind(this)
-        this._onButtonViewHandler = this._onButtonViewHandler.bind(this)
-        this._navigateTopicDetail = this._navigateTopicDetail.bind(this)
     }
 
     render() {
@@ -53,66 +38,23 @@ class UserContentComponent extends Component {
                     </View>
                 </View>
                 <View style={styles.topicItemContainer}>
-                    <View style={styles.buttonGroup}>
-                        {
-                            Object.keys(keyToName).map((key, index) => {
-                                return (
-                                    <ButtonView
-                                        key={index}
-                                        style={styles.buttonView}
-                                        effect={ButtonView.EFFECT.DEFAULT}
-                                        selected={key=== this.state.display}
-                                        selectedStyle={styles.selectedStyle}
-                                        onPress={this._onButtonViewHandler.bind(this,key)}
-                                    >
-                                        <Text style={styles.buttonText}>
-                                            {keyToName[key]}
-                                        </Text>
-                                    </ButtonView>
-                                )
-                            })
-                        }
-                    </View>
-                    <View style={styles.topicContainer}>
-                        <ListView
-                            dataSource={this.ds.cloneWithRows(this.props[this.state.display])}
-                            renderRow={this._renderRow}
+                    <ScrollableTabView>
+                        <TopicItem
+                            tabLabel="最近创建"
+                            data={this.props.recent_topics}
                         />
-                    </View>
+                        <TopicItem
+                            tabLabel="最近回复"
+                            data={this.props.recent_replies}
+                        />
+                        <TopicItem
+                            tabLabel="收藏"
+                            data={this.props.topic_collect}
+                        />
+                    </ScrollableTabView>
                 </View>
             </View>
         )
-    }
-
-    _onButtonViewHandler(display) {
-        this.setState({
-            display
-        })
-    }
-
-    _renderRow(rowData, sectionID, rowID) {
-        return (
-            <ButtonView
-                style={styles.topicItem}
-                onPress = {()=>{this._navigateTopicDetail(rowData)}}
-            >
-                <Text
-                    numberOfLines={1}
-                    ellipsizeMode={'tail'}
-                >
-                    {rowData.title}
-                </Text>
-            </ButtonView>
-        )
-    }
-
-    _navigateTopicDetail(rowData){
-        const {navigation} = this.props
-        const {id} = rowData
-        navigation.navigate('TopicDetail',{
-            title: '正文',
-            topicId: id
-        })
     }
 }
 
@@ -157,7 +99,6 @@ const styles = StyleSheet.create({
     },
     topicItemContainer: {
         flex: 3,
-        flexDirection: 'column'
     },
     buttonGroup: {
         height: 50,
@@ -172,15 +113,6 @@ const styles = StyleSheet.create({
     },
     topicContainer: {
         flex: 1
-    },
-    topicItem: {
-        height: 50,
-        flexDirection: 'row',
-        alignItems: 'center',
-        paddingLeft: 20,
-        paddingRight: 20,
-        borderBottomWidth: 0.5,
-        borderBottomColor: '#666'
     },
     selectedStyle: {
         borderBottomWidth: 4,

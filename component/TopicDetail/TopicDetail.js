@@ -8,7 +8,7 @@ import {
 }from 'react-native'
 import {headerStyle} from '../../constant/Constant'
 import TopicDetailHelper from './TopicDetailHelper'
-import {MarkdownView} from 'react-native-markdown-view'
+import Markdown from 'react-native-simple-markdown'
 import TopicComment from './TopicComment'
 
 import Header from './Header'
@@ -21,6 +21,8 @@ class TopicDetail extends Component {
         this.dataSource = new ListView.DataSource({
             rowHasChanged: (r1, r2) => r1 !== r2
         })
+        this._getData = this._getData.bind(this)
+        this._renderCommentRow = this._renderCommentRow.bind(this)
     }
 
     static navigationOptions = ({navigation}) => {
@@ -41,14 +43,13 @@ class TopicDetail extends Component {
     }
 
     componentWillMount() {
-        const {topicId} = this.props.navigation.state.params
-        const {isLogin,accessToken:accesstoken} = this.props.login
-        const options = !isLogin ? {} : {accesstoken}
-        this._helper.getData(topicId, options).then((data) => {
-            this.setState({
-                data: data
-            })
-        })
+        this._getData();
+    }
+
+    componentWillReceiveProps(nextProps){
+        if(nextProps.login !== this.props.login){
+            this._getData()
+        }
     }
 
     render() {
@@ -74,7 +75,7 @@ class TopicDetail extends Component {
                             {title}
                         </Text>
                     </View>
-                    {/*<MarkdownView>{content}</MarkdownView>*/}
+                    <Markdown>{content}</Markdown>
                     <View style={styles.commentContainer}>
                         <ListView
                             enableEmptySections={true}
@@ -87,9 +88,21 @@ class TopicDetail extends Component {
         )
     }
 
+    _getData(){
+        const {topicId} = this.props.navigation.state.params
+        const {isLogin,accessToken:accesstoken} = this.props.login
+        const options = !isLogin ? {} : {accesstoken}
+        this._helper.getData(topicId, options).then((data) => {
+            this.setState({
+                data: data
+            })
+        })
+    }
+
     _renderCommentRow(rowData) {
         return (
             <TopicComment
+                login={this.props.login}
                 {...rowData}
             />
         )

@@ -11,6 +11,10 @@ class TopicDetailHelper {
 
     async getData(topicId, options = intialOptions) {
         let url = `${URL_PREFIX}/topic/${topicId}`
+        options = {
+            ...options,
+            mdrender: false
+        };
         const keys = Object.keys(options)
         _.each(keys, (key, index) => {
             url += index === 0 ? '?' : ''

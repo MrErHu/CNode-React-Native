@@ -17,8 +17,8 @@ import Colors from './Colors'
 import Portal from '../Portal'
 
 const TOAST_HEIGHT = 54;
-@mixin(TimerMixin)
 
+@mixin(TimerMixin)
 class Toast extends Component {
     static SHORT = 2000;
     static LONG = 3500;

@@ -3,8 +3,6 @@ package com.cnodereactnative;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
-import com.lwansbrough.RCTCamera.RCTCameraPackage;
-import com.oblador.vectoricons.VectorIconsPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -24,9 +22,7 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
-          new MainReactPackage(),
-            new RCTCameraPackage(),
-            new VectorIconsPackage()
+          new MainReactPackage()
       );
     }
   };
