@@ -13,7 +13,7 @@ class TopicDetailHelper {
         let url = `${URL_PREFIX}/topic/${topicId}`
         options = {
             ...options,
-            mdrender: false
+            mdrender: true
         };
         const keys = Object.keys(options)
         _.each(keys, (key, index) => {

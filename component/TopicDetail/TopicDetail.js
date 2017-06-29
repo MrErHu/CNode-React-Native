@@ -6,9 +6,9 @@ import {
     ListView,
     StyleSheet,
 }from 'react-native'
+import HTMLView from './HtmlView';
 import {headerStyle} from '../../constant/Constant'
 import TopicDetailHelper from './TopicDetailHelper'
-import Markdown from 'react-native-simple-markdown'
 import TopicComment from './TopicComment'
 
 import Header from './Header'
@@ -36,7 +36,7 @@ class TopicDetail extends Component {
         navigation: PropTypes.object
     }
 
-    getChildContext(){
+    getChildContext() {
         return {
             navigation: this.props.navigation
         }
@@ -46,8 +46,8 @@ class TopicDetail extends Component {
         this._getData();
     }
 
-    componentWillReceiveProps(nextProps){
-        if(nextProps.login !== this.props.login){
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.login !== this.props.login) {
             this._getData()
         }
     }
@@ -61,6 +61,7 @@ class TopicDetail extends Component {
             )
         }
         const {title, content, replies} =this.state.data
+        console.log('content: ',content)
         return (
             <View style={styles.container}>
                 <ScrollView style={styles.scrollContainer}>
@@ -75,7 +76,11 @@ class TopicDetail extends Component {
                             {title}
                         </Text>
                     </View>
-                    <Markdown>{content}</Markdown>
+                    <View style={styles.detailContent}>
+                        <HTMLView
+                            value={content}
+                        />
+                    </View>
                     <View style={styles.commentContainer}>
                         <ListView
                             enableEmptySections={true}
@@ -88,9 +93,9 @@ class TopicDetail extends Component {
         )
     }
 
-    _getData(){
+    _getData() {
         const {topicId} = this.props.navigation.state.params
-        const {isLogin,accessToken:accesstoken} = this.props.login
+        const {isLogin, accessToken:accesstoken} = this.props.login
         const options = !isLogin ? {} : {accesstoken}
         this._helper.getData(topicId, options).then((data) => {
             this.setState({
@@ -130,6 +135,10 @@ const styles = StyleSheet.create({
     },
     commentContainer: {
         paddingTop: 20,
+    },
+    detailContent: {
+        borderBottomWidth: 0.5,
+        borderBottomColor: '#666'
     }
 })
 

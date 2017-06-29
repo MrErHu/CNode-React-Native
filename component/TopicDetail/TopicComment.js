@@ -6,10 +6,10 @@ import {
     StyleSheet
 } from 'react-native'
 import moment from 'moment'
+import HTMLView from './HtmlView';
 import IconButton from '../../base/IconButton'
 import {URL_PREFIX} from '../../constant/Constant'
 import {post} from '../../utils/network'
-import {MarkdownView} from 'react-native-markdown-view'
 
 
 class TopicComment extends Component {
@@ -75,7 +75,9 @@ class TopicComment extends Component {
                         </View>
                     </View>
                     <View >
-                        <MarkdownView>{content}</MarkdownView>
+                        <HTMLView
+                            value={content}
+                        />
                     </View>
                 </View>
             </View>
