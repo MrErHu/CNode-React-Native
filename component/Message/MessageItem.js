@@ -1,9 +1,10 @@
-import React, {Component} from 'react'
+import React, {Component,PropTypes} from 'react'
 import {
     View,
     Text,
     StyleSheet
 } from 'react-native'
+import {MarkdownView} from 'react-native-markdown-view'
 import ButtonView from '../../base/ButtonView'
 import IconButton from '../../base/IconButton'
 import moment from 'moment'
@@ -14,10 +15,16 @@ class MessageItem extends Component {
 
     constructor(props) {
         super(props)
+        this._avatarImageOnPress = this._avatarImageOnPress.bind(this)
+        this._navigateTopicDetail = this._navigateTopicDetail.bind(this)
+    }
+
+    static contextTypes = {
+        navigation: PropTypes.object
     }
 
     render() {
-        const {author, content, create_at,reply} = this.props;
+        const {author, content, create_at, reply} = this.props;
         return (
             <ButtonView
                 effect={ButtonView.EFFECT.DEFAULT}
@@ -31,8 +38,13 @@ class MessageItem extends Component {
                             onPress={this._avatarImageOnPress}
                         />
                         <View style={styles.centerContent}>
-                            <Text style={styles.detailText}>{author.loginname}</Text>
-                            <Text style={styles.detailText}>{reply.content}</Text>
+                            <ButtonView
+                                effect={ButtonView.EFFECT.DEFAULT}
+                                onPress={this._avatarImageOnPress}
+                            >
+                                <Text style={styles.detailText}>{author.loginname}</Text>
+                            </ButtonView>
+                            <MarkdownView>{reply.content}</MarkdownView>
                         </View>
                         <View style={styles.rightContent}>
                             <Text style={styles.detailText}>
@@ -43,14 +55,32 @@ class MessageItem extends Component {
                 </View>
             </ButtonView>
         )
+    }
 
+
+    _avatarImageOnPress() {
+        const {navigation} = this.context
+        const {author} = this.props
+        navigation.navigate('UserContent', {
+            title: `${author.loginname}的主页`,
+            userName: author.loginname
+        })
+    }
+
+    _navigateTopicDetail(){
+        const {navigation} = this.context
+        const {id} = this.props.topic
+        navigation.navigate('TopicDetail', {
+            title: '正文',
+            topicId: id
+        })
     }
 
 }
 
 const styles = StyleSheet.create({
     container: {
-        height: 60,
+        minHeight: 80,
         flexDirection: 'column',
         borderBottomWidth: 0.5,
         borderBottomColor: '#666',

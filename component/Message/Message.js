@@ -1,4 +1,4 @@
-import React, {Component}from 'react'
+import React, {Component, PropTypes}from 'react'
 import {
     View,
     Text,
@@ -24,8 +24,18 @@ class Message extends Component {
         }
     }
 
-    componentWillMount(){
-        this.helper.getData(this.props).then((data)=>{
+    static childContextTypes = {
+        navigation: PropTypes.object
+    }
+
+    getChildContext() {
+        return {
+            navigation: this.props.navigation
+        }
+    }
+
+    componentWillMount() {
+        this.helper.getData(this.props).then((data) => {
             this.setState({
                 data: data
             })
@@ -33,7 +43,7 @@ class Message extends Component {
     }
 
     render() {
-        if(!this.state){
+        if (!this.state) {
             return (
                 <View style={styles.container}>
                     <Text>Loading...</Text>
