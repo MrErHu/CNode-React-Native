@@ -12,6 +12,7 @@ import LoginHelper from './LoginHelper'
 import ActionSheet from '../../base/ActionSheet'
 import {headerStyle} from '../../constant/Constant'
 import IconButton from '../../base/IconButton'
+import QcCodeScan from '../QcCodeScan'
 
 const textInputPlaceHolder = '请输入Access Token'
 
@@ -23,15 +24,14 @@ class Login extends Component {
             textValue: 'f46e2ae0-1ae3-4640-9219-5a6db1263e07'
         }
         this.help = new LoginHelper(props)
+        this._iconButtonPress = this._iconButtonPress.bind(this)
         this._changeTextHandler = this._changeTextHandler.bind(this)
-        this._loginButtonPressHandler = this._loginButtonPressHandler.bind(this)
     }
 
     static navigationOptions = ({navigation}) => {
         return {
             title: '登录',
-            headerStyle: headerStyle,
-            headerRight: (<ScanButton/>)
+            headerStyle: headerStyle
         }
     }
 
@@ -48,11 +48,29 @@ class Login extends Component {
                     />
                     <Button
                         title={'登录'}
-                        onPress={this._loginButtonPressHandler}
+                        onPress={()=>{this._loginHandler(this.state.textValue)}}
+                    />
+                    <IconButton
+                        name="scan"
+                        style={styles.scanImage}
+                        onPress={this._iconButtonPress}
                     />
                 </View>
             </View>
         )
+    }
+
+    _iconButtonPress() {
+        ActionSheet.showActionSheetWithOptions({
+            options: ['拍摄', '从手机相册选择', '取消'],
+            cancelButtonIndex: 2
+        }, (index) => {
+            if (index === 0) {
+                QcCodeScan.showQcCodeScan({
+                    onValueChange: (value)=>{this._loginHandler(value.data)}
+                })
+            }
+        });
     }
 
     _changeTextHandler(textValue) {
@@ -61,10 +79,9 @@ class Login extends Component {
         })
     }
 
-    _loginButtonPressHandler() {
-        const {textValue} = this.state;
+    _loginHandler(accessToken){
         const {navigation} = this.props;
-        this.help.doLogin(textValue).then(result => {
+        this.help.doLogin(accessToken).then(result => {
             if (result) {
                 Toast.show(
                     '登录成功',
@@ -81,26 +98,7 @@ class Login extends Component {
             }
         })
     }
-}
 
-
-const ScanButton = () => {
-    const handler = ()=>{
-        ActionSheet.showActionSheetWithOptions({
-            options: ['拍摄', '从手机相册选择','取消'],
-            cancelButtonIndex: 2
-        },(index)=>{
-
-        });
-    }
-
-    return (
-        <IconButton
-            name="scan"
-            style={styles.scanImage}
-            onPress={handler}
-        />
-    )
 }
 
 const styles = StyleSheet.create({
@@ -124,7 +122,7 @@ const styles = StyleSheet.create({
         padding: 5
     },
     scanImage: {
-        margin: 12
+        margin: 20
     },
     headerStyle: {
         backgroundColor: '#F8F8F8'
