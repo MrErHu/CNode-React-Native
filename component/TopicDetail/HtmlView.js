@@ -233,8 +233,11 @@ class HtmlView extends React.Component {
     render() {
         const {value} = this.props
         return (
-            <RNHtmlView value={value} stylesheet={this._styles} onLinkPress={this._handleLinkPress}
-                        renderNode={this._renderNode}/>
+            <RNHtmlView
+                value={value}
+                stylesheet={this._styles}
+                onLinkPress={this._handleLinkPress}
+                renderNode={this._renderNode}/>
         )
     }
 }

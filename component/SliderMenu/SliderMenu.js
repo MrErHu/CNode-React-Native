@@ -19,10 +19,11 @@ const {width:windowWidth, height:windowHeight} = Dimensions.get('window')
 
 class SliderMenu extends Component {
 
-    constructor(props,context) {
-        super(props,context)
+    constructor(props, context) {
+        super(props, context)
         this.state = {
-            width: new Animated.Value(0)
+            width: new Animated.Value(0),
+            opacity: new Animated.Value(1)
         }
         this._closeSliderMenu = this._closeSliderMenu.bind(this)
         this._navigateMessage = this._navigateMessage.bind(this)
@@ -49,7 +50,7 @@ class SliderMenu extends Component {
         actions: PropTypes.object
     }
 
-    getChildContext(){
+    getChildContext() {
         const {actions} = this.props;
         return {
             actions
@@ -57,9 +58,10 @@ class SliderMenu extends Component {
     }
 
     componentDidMount() {
-        Animated.timing(
-            this.state.width,
-            {toValue: (windowWidth * 2 / 3)}
+        Animated.timing(this.state.width,
+            {
+                toValue: (windowWidth * 2 / 3)
+            }
         ).start();
     }
 
@@ -69,7 +71,10 @@ class SliderMenu extends Component {
             <TouchableWithoutFeedback onPress={()=>{this._closeSliderMenu(onRequestClose)}}>
                 <View style={styles.container}>
                     <Animated.View
-                        style={[styles.content,{width: this.state.width}]}
+                        style={[styles.content,{
+                            width: this.state.width,
+                            opacity: this.state.opacity
+                        }]}
                     >
                         <UserInfo
                             {...login}
@@ -132,10 +137,10 @@ class SliderMenu extends Component {
         this._closeSliderMenu(onRequestClose)
     }
 
-    _menuPressHandler(tab){
-        const {onRequestClose,navigation} = this.props;
+    _menuPressHandler(tab) {
+        const {onRequestClose, navigation} = this.props;
 
-        switch (tab){
+        switch (tab) {
             case 'about':
                 navigation.navigate('About');
                 break;
@@ -149,32 +154,34 @@ class SliderMenu extends Component {
     }
 
     _closeSliderMenu(callback) {
-        Animated.timing(
-            this.state.width,
-            {
-                duration: 500,
-                toValue: 0
-            }
-        ).start(() => {
+        Animated.parallel([
+            Animated.timing(
+                this.state.width,
+                {
+                    duration: 200,
+                    toValue: 0
+                }
+            )
+        ]).start(() => {
             callback()
         });
     }
 
-    _navigateMessage(){
-        if(this._validateLogin()){
+    _navigateMessage() {
+        if (this._validateLogin()) {
             const {navigation} = this.props;
-            navigation.navigate('Message',{
+            navigation.navigate('Message', {
                 login: this.props.login
             })
         }
     }
 
-    _validateLogin(){
-        const {login,navigation} = this.props;
-        if(login.isLogin === false){
+    _validateLogin() {
+        const {login, navigation} = this.props;
+        if (login.isLogin === false) {
             navigation.navigate('Login');
             return false;
-        }else{
+        } else {
             return true;
         }
     }

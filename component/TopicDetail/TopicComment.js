@@ -7,6 +7,7 @@ import {
 } from 'react-native'
 import moment from 'moment'
 import HTMLView from './HtmlView';
+import ButtonView from '../../base/ButtonView'
 import IconButton from '../../base/IconButton'
 import {URL_PREFIX} from '../../constant/Constant'
 import {post} from '../../utils/network'
@@ -22,6 +23,7 @@ class TopicComment extends Component {
         }
         this._checkIsLogin = this._checkIsLogin.bind(this)
         this.upButtonHandler = this.upButtonHandler.bind(this)
+        this._directUserDetail = this._directUserDetail.bind(this)
     }
 
     static contextTypes = {
@@ -41,10 +43,15 @@ class TopicComment extends Component {
         return (
             <View style={styles.commentContainer}>
                 <View style={styles.avatarView}>
-                    <Image
-                        style={styles.avatar}
-                        source={{uri: `${author.avatar_url}`}}
-                    />
+                    <ButtonView
+                        effect={ButtonView.EFFECT.DEFAULT}
+                        onPress={this._directUserDetail}
+                    >
+                        <Image
+                            style={styles.avatar}
+                            source={{uri: `${author.avatar_url}`}}
+                        />
+                    </ButtonView>
                 </View>
                 <View style={styles.rightView}>
                     <View style={styles.rightTopContainer}>
@@ -65,7 +72,8 @@ class TopicComment extends Component {
                                     onPress={this.upButtonHandler}
                                 />
                                 {
-                                    this.state.upNum === 0 ? null : <Text style={[styles.timeText,{marginLeft: 5}]}>{this.state.upNum}</Text>
+                                    this.state.upNum === 0 ? null :
+                                        <Text style={[styles.timeText,{marginLeft: 5}]}>{this.state.upNum}</Text>
                                 }
                             </View>
                             <IconButton
@@ -118,6 +126,14 @@ class TopicComment extends Component {
         }
     }
 
+    _directUserDetail() {
+        const {navigation} = this.context
+        const {author} = this.props
+        navigation.navigate('UserContent', {
+            title: `${author.loginname}的主页`,
+            userName: author.loginname
+        })
+    }
 }
 
 const styles = StyleSheet.create({
