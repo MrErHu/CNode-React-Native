@@ -11,6 +11,7 @@ import _ from 'lodash'
 import {decorate as mixin} from 'react-mixin'
 import TopicListItem from './TopicListItem'
 import TopicListHelper from './TopicListHelper'
+import IconButton from '../../base/IconButton'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
 
 const initialState = {
@@ -21,8 +22,8 @@ const initialState = {
 @mixin(PureRenderMixin)
 class TopicList extends Component {
 
-    constructor(props,context) {
-        super(props,context);
+    constructor(props, context) {
+        super(props, context);
         this._renderTopicItem = this._renderTopicItem.bind(this)
         this._onEndReachedHandler = this._onEndReachedHandler.bind(this)
         this._renderFooterHandler = this._renderFooterHandler.bind(this)
@@ -44,7 +45,7 @@ class TopicList extends Component {
     componentDidMount() {
         this.help.getData({
             page: this.state.data.length
-        }).then(data=>{
+        }).then(data => {
             this.setState({
                 data: this.state.data.concat(data),
                 isFetching: false
@@ -53,12 +54,12 @@ class TopicList extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if(nextProps.tab !== this.props.tab){
+        if (nextProps.tab !== this.props.tab) {
             this.help.updateHelper(nextProps)
             this.setState(initialState)
             this.help.getData({
                 page: this.state.data.length
-            }).then(data=>{
+            }).then(data => {
                 this.setState({
                     data: this.state.data.concat(data),
                     isFetching: false
@@ -69,6 +70,7 @@ class TopicList extends Component {
 
     render() {
         const {data} = this.state
+        const loading = _.isEmpty(this.state.data);
         return (
             <View style={styles.container}>
                 <ListView
@@ -80,6 +82,11 @@ class TopicList extends Component {
                     onEndReached={this._onEndReachedHandler}
                     renderFooter={this._renderFooterHandler}
                 />
+                {loading ? null : <View style={styles.addTopic}>
+                        <IconButton
+                            name="add-topic"
+                        />
+                    </View>}
             </View>
         )
     }
@@ -95,8 +102,8 @@ class TopicList extends Component {
         );
     }
 
-    _renderFooterHandler(){
-        if(this.state.isFetching){
+    _renderFooterHandler() {
+        if (this.state.isFetching) {
             return (
                 <View style={styles.loadingContainer}>
                     <Image
@@ -105,7 +112,7 @@ class TopicList extends Component {
                     />
                 </View>
             )
-        }else {
+        } else {
             return null;
         }
     }
@@ -116,7 +123,7 @@ class TopicList extends Component {
         })
         this.help.getData({
             page: this.state.data.length
-        }).then(data=>{
+        }).then(data => {
             this.setState({
                 data: this.state.data.concat(data),
                 isFetching: false
@@ -127,7 +134,8 @@ class TopicList extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#FFF',
+        position: 'relative',
+        backgroundColor: '#FFF'
     },
     loadingContainer: {
         flex: 1,
@@ -136,8 +144,17 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     loading: {
-        width: 20,
-        height: 20
+        width: 18,
+        height: 18
+    },
+    addTopic: {
+        position: 'absolute',
+        right: 25,
+        bottom: 25,
+        width: 50,
+        height: 50,
+        borderRadius: 25,
+        overflow: 'hidden'
     }
 })
 
