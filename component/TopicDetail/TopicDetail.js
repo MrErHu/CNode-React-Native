@@ -61,7 +61,6 @@ class TopicDetail extends Component {
             )
         }
         const {title, content, replies} =this.state.data
-        console.log('content: ',content)
         return (
             <View style={styles.container}>
                 <ScrollView style={styles.scrollContainer}>
