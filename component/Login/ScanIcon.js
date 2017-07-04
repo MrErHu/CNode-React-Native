@@ -6,6 +6,7 @@ import {
 import {connect} from 'react-redux'
 import {bindActionCreators}from 'redux'
 import Toast from '../../base/Toast'
+import LoginHelper from './LoginHelper'
 import * as actions from '../../action/loginAction'
 import ActionSheet from '../../base/ActionSheet'
 import QcCodeScan from '../QcCodeScan'
@@ -16,6 +17,7 @@ class ScanIcon extends Component {
 
     constructor(props) {
         super(props)
+        this.help = new LoginHelper(props)
         this._loginHandler = this._loginHandler.bind(this)
         this._iconButtonPress = this._iconButtonPress.bind(this)
     }

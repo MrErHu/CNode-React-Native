@@ -28,7 +28,9 @@ class Login extends Component {
         return {
             title: '登录',
             headerStyle: headerStyle,
-            headerRight: (<ScanIcon />)
+            headerRight: (<ScanIcon
+                navigation={navigation}
+            />)
         }
     }
 
