@@ -11,7 +11,7 @@ import ButtonView from '../../base/ButtonView'
 import IconButton from '../../base/IconButton'
 import {URL_PREFIX} from '../../constant/Constant'
 import {post} from '../../utils/network'
-
+import CommentInput from '../../base/CommentInput'
 
 class TopicComment extends Component {
 
@@ -22,8 +22,9 @@ class TopicComment extends Component {
             upNum: props.ups.length
         }
         this._checkIsLogin = this._checkIsLogin.bind(this)
-        this.upButtonHandler = this.upButtonHandler.bind(this)
+        this._upButtonHandler = this._upButtonHandler.bind(this)
         this._directUserDetail = this._directUserDetail.bind(this)
+        this._commentButtonHandler = this._commentButtonHandler.bind(this)
     }
 
     static contextTypes = {
@@ -69,7 +70,7 @@ class TopicComment extends Component {
                                     name="praise"
                                     control={true}
                                     selected={this.state.is_uped}
-                                    onPress={this.upButtonHandler}
+                                    onPress={this._upButtonHandler}
                                 />
                                 {
                                     this.state.upNum === 0 ? null :
@@ -79,6 +80,7 @@ class TopicComment extends Component {
                             <IconButton
                                 name='comment'
                                 style={{marginLeft: 5}}
+                                onPress={this._commentButtonHandler}
                             />
                         </View>
                     </View>
@@ -92,7 +94,7 @@ class TopicComment extends Component {
         )
     }
 
-    upButtonHandler() {
+    _upButtonHandler() {
         if (!this._checkIsLogin()) {
             return;
         }
@@ -107,6 +109,11 @@ class TopicComment extends Component {
             })
         })
     }
+
+    _commentButtonHandler(){
+        CommentInput.showCommentInput();
+    }
+    
 
     _checkIsLogin() {
         const {login} = this.props;
