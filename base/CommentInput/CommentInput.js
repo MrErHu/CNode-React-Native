@@ -3,9 +3,12 @@ import {
     View,
     Text,
     Modal,
+    Animated,
     TextInput,
     Dimensions,
     StyleSheet,
+    Keyboard,
+    KeyboardAvoidingView,
     TouchableWithoutFeedback
 } from 'react-native'
 import Portal from '../../base/Portal'
@@ -16,9 +19,12 @@ class CommentInput extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            value: ""
+            value: "",
+            bottom: new Animated.Value(0)
         }
+
         this._close = this._close.bind(this)
+        this._sendMessage = this._sendMessage.bind(this)
     }
 
 
@@ -30,6 +36,16 @@ class CommentInput extends Component {
                 Portal.closeModal(tag)
             }}
         />)
+    }
+
+    componentWillMount () {
+        this.keyboardWillShowSub = Keyboard.addListener('keyboardWillShow', this._keyboardWillShow.bind(this));
+        this.keyboardWillHideSub = Keyboard.addListener('keyboardWillHide', this._keyboardWillHide.bind(this));
+    }
+
+    componentWillUnmount() {
+        this.keyboardWillShowSub.remove();
+        this.keyboardWillHideSub.remove();
     }
 
     render() {
@@ -45,7 +61,9 @@ class CommentInput extends Component {
                     >
                         <View style={styles.mask}>
                             <TouchableWithoutFeedback>
-                                <View style={styles.container}>
+                                <Animated.View
+                                    style={[styles.container,{bottom: this.state.bottom}]}
+                                >
                                     <View>
                                         <TextInput
                                             style={styles.textInput}
@@ -57,10 +75,11 @@ class CommentInput extends Component {
                                     </View>
                                     <ButtonView
                                         effect={ButtonView.EFFECT.DEFAULT}
+                                        onPress={this._sendMessage}
                                     >
                                         <Text style={[styles.sendText,styles.invalid]}>发送</Text>
                                     </ButtonView>
-                                </View>
+                                </Animated.View>
                             </TouchableWithoutFeedback>
                         </View>
                     </TouchableWithoutFeedback>
@@ -69,8 +88,27 @@ class CommentInput extends Component {
         )
     }
 
+    _keyboardWillShow(event){
+        Animated.timing(this.state.bottom,{
+            duration: event.duration,
+            toValue: event.endCoordinates.height
+        }).start();
+    }
+
+    _keyboardWillHide(event){
+        Animated.timing(this.state.bottom,{
+            duration: event.duration,
+            toValue: 0
+        }).start();
+    }
+
+
     _close() {
         this.props.onRequestClose();
+    }
+
+    _sendMessage(){
+
     }
 }
 
@@ -79,7 +117,6 @@ const styles = StyleSheet.create({
         position: 'absolute',
         left: 0,
         right: 0,
-        bottom: 0,
         height: 46,
         flexDirection: 'row',
         alignItems: 'center',
@@ -87,7 +124,7 @@ const styles = StyleSheet.create({
         borderTopColor: "#808080",
         borderBottomColor: "#808080",
         borderTopWidth: StyleSheet.hairlineWidth,
-        borderBottomWidth: StyleSheet.hairlineWidth
+        borderBottomWidth: StyleSheet.hairlineWidth,
     },
     mask: {
         position: 'absolute',
