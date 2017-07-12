@@ -107,6 +107,7 @@ class TopicDetail extends Component {
         return (
             <TopicComment
                 login={this.props.login}
+                topicId={this.state.data.id}
                 {...rowData}
             />
         )

@@ -110,10 +110,18 @@ class TopicComment extends Component {
         })
     }
 
-    _commentButtonHandler(){
-        CommentInput.showCommentInput();
+    _commentButtonHandler() {
+        if (!this._checkIsLogin()) {
+            return;
+        }
+        const {topicId, id, login} = this.props;
+        CommentInput.showCommentInput({
+            accessToken: login.accessToken,
+            replyId: id,
+            topicId: topicId
+        });
     }
-    
+
 
     _checkIsLogin() {
         const {login} = this.props;

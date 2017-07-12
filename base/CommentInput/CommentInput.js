@@ -13,32 +13,36 @@ import {
 } from 'react-native'
 import Portal from '../../base/Portal'
 import ButtonView from '../../base/ButtonView'
+import {post} from '../../utils'
+import {URL_PREFIX} from '../../constant/Constant'
 
 class CommentInput extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            value: "",
+            text: "",
             bottom: new Animated.Value(0)
         }
-
         this._close = this._close.bind(this)
         this._sendMessage = this._sendMessage.bind(this)
+        this._onChangeTextHandler = this._onChangeTextHandler.bind(this)
     }
 
 
-    static showCommentInput() {
+    static showCommentInput(options,callback) {
         const tag = Portal.allocateTag()
         Portal.showModal(tag, <CommentInput
             key={tag}
-            onRequestClose={()=>{
+            {...options}
+            onRequestClose={(data)=>{
+                callback(data);
                 Portal.closeModal(tag)
             }}
         />)
     }
 
-    componentWillMount () {
+    componentWillMount() {
         this.keyboardWillShowSub = Keyboard.addListener('keyboardWillShow', this._keyboardWillShow.bind(this));
         this.keyboardWillHideSub = Keyboard.addListener('keyboardWillHide', this._keyboardWillHide.bind(this));
     }
@@ -49,6 +53,7 @@ class CommentInput extends Component {
     }
 
     render() {
+        const textIsEmpty = this.state.text == '';
         return (
             <View>
                 <Modal
@@ -71,13 +76,14 @@ class CommentInput extends Component {
                                             autoFocus={true}
                                             underlineColorAndroid="transparent"
                                             placeholder={'Hello Word'}
+                                            onChangeText={this._onChangeTextHandler}
                                         />
                                     </View>
                                     <ButtonView
                                         effect={ButtonView.EFFECT.DEFAULT}
                                         onPress={this._sendMessage}
                                     >
-                                        <Text style={[styles.sendText,styles.invalid]}>发送</Text>
+                                        <Text style={[styles.sendText,textIsEmpty ?styles.invalid: null]}>发送</Text>
                                     </ButtonView>
                                 </Animated.View>
                             </TouchableWithoutFeedback>
@@ -88,27 +94,51 @@ class CommentInput extends Component {
         )
     }
 
-    _keyboardWillShow(event){
-        Animated.timing(this.state.bottom,{
+    _keyboardWillShow(event) {
+        Animated.timing(this.state.bottom, {
             duration: event.duration,
             toValue: event.endCoordinates.height
         }).start();
     }
 
-    _keyboardWillHide(event){
-        Animated.timing(this.state.bottom,{
+    _keyboardWillHide(event) {
+        Animated.timing(this.state.bottom, {
             duration: event.duration,
             toValue: 0
         }).start();
     }
 
-
-    _close() {
-        this.props.onRequestClose();
+    _onChangeTextHandler(text) {
+        this.setState({
+            text
+        })
     }
 
-    _sendMessage(){
+    _close(data) {
+        this.props.onRequestClose(data);
+    }
 
+    _sendMessage() {
+        this.sendMessageData().then((result)=>{
+            this._close({
+                result
+            });
+        })
+    }
+
+    async sendMessageData(){
+        const {accessToken, replyId, topicId} = this.props;
+        const url = `${URL_PREFIX}/topic/${topicId}/replies`
+        const data = await post(url, {
+            accesstoken: accessToken,
+            content: this.state.text,
+            reply_id: replyId
+        });
+        if(data.success){
+            return true
+        }else {
+            return false
+        }
     }
 }
 
