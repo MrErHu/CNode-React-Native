@@ -4,10 +4,12 @@ import {
     Text,
     Image,
     TouchableWithoutFeedback,
-    StyleSheet
+    StyleSheet,
+    AsyncStorage
 } from 'react-native'
 import {Provider, connect} from 'react-redux'
 import {StackNavigator} from 'react-navigation'
+import {persistStore} from 'redux-persist-immutable'
 import configureStore from './store'
 import Portal from './base/Portal'
 
@@ -20,7 +22,12 @@ import About from './component/About'
 import Message from './component/Message'
 
 const store = configureStore()
-
+persistStore(store,{
+    whitelist: ['login'],
+    storage: AsyncStorage,
+},()=>{
+    console.log('本地持久化存储成功');
+})
 
 const NavigatorApp = StackNavigator({
     Home: {

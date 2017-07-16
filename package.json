@@ -23,6 +23,7 @@
     "react-timer-mixin": "^0.13.3",
     "redux-immutablejs": "0.0.8",
     "redux-logger": "^3.0.1",
+    "redux-persist-immutable": "^4.3.0",
     "redux-thunk": "^2.2.0"
   },
   "devDependencies": {
