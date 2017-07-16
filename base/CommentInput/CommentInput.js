@@ -13,6 +13,7 @@ import {
 } from 'react-native'
 import Portal from '../../base/Portal'
 import ButtonView from '../../base/ButtonView'
+import Toast from '../../base/Toast'
 import {post} from '../../utils'
 import {URL_PREFIX} from '../../constant/Constant'
 
@@ -30,13 +31,15 @@ class CommentInput extends Component {
     }
 
 
-    static showCommentInput(options,callback) {
+    static showCommentInput(options, callback) {
         const tag = Portal.allocateTag()
         Portal.showModal(tag, <CommentInput
             key={tag}
             {...options}
             onRequestClose={(data)=>{
-                callback(data);
+                if(callback){
+                    callback(data);
+                }
                 Portal.closeModal(tag)
             }}
         />)
@@ -119,14 +122,20 @@ class CommentInput extends Component {
     }
 
     _sendMessage() {
-        this.sendMessageData().then((result)=>{
-            this._close({
-                result
-            });
+        this.sendMessageData().then((result) => {
+            if (result) {
+                Toast.show('发送成功', Toast.DEFAULT, Toast.SHORT);
+                this.props.refresh()
+                this._close({
+                    result
+                });
+            } else {
+                Toast.show('发送失败', Toast.WARNING, Toast.SHORT);
+            }
         })
     }
 
-    async sendMessageData(){
+    async sendMessageData() {
         const {accessToken, replyId, topicId} = this.props;
         const url = `${URL_PREFIX}/topic/${topicId}/replies`
         const data = await post(url, {
@@ -134,9 +143,9 @@ class CommentInput extends Component {
             content: this.state.text,
             reply_id: replyId
         });
-        if(data.success){
+        if (data.success) {
             return true
-        }else {
+        } else {
             return false
         }
     }

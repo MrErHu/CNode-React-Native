@@ -118,7 +118,10 @@ class TopicComment extends Component {
         CommentInput.showCommentInput({
             accessToken: login.accessToken,
             replyId: id,
-            topicId: topicId
+            topicId: topicId,
+            refresh: ()=>{
+                this.props.refresh()
+            }
         });
     }
 

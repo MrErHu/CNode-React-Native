@@ -23,6 +23,7 @@ class TopicDetail extends Component {
         })
         this._getData = this._getData.bind(this)
         this._renderCommentRow = this._renderCommentRow.bind(this)
+        this._refreshDetail = this._refreshDetail.bind(this)
     }
 
     static navigationOptions = ({navigation}) => {
@@ -108,9 +109,14 @@ class TopicDetail extends Component {
             <TopicComment
                 login={this.props.login}
                 topicId={this.state.data.id}
+                refresh={this._refreshDetail}
                 {...rowData}
             />
         )
+    }
+
+    _refreshDetail(){
+        this._getData();
     }
 }
 
