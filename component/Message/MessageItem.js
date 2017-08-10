@@ -4,7 +4,6 @@ import {
     Text,
     StyleSheet
 } from 'react-native'
-import {MarkdownView} from 'react-native-markdown-view'
 import ButtonView from '../../base/ButtonView'
 import IconButton from '../../base/IconButton'
 import moment from 'moment'
@@ -44,7 +43,7 @@ class MessageItem extends Component {
                             >
                                 <Text style={styles.detailText}>{author.loginname}</Text>
                             </ButtonView>
-                            <MarkdownView>{reply.content}</MarkdownView>
+                            <Text>{reply.content}</Text>
                         </View>
                         <View style={styles.rightContent}>
                             <Text style={styles.detailText}>

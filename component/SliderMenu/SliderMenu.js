@@ -145,7 +145,8 @@ class SliderMenu extends Component {
                 navigation.navigate('About');
                 break;
             case 'set':
-                ;
+                navigation.navigate('Setting');
+                break;
             case 'message':
                 this._navigateMessage();
                 break;

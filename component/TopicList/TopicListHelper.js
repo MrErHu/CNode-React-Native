@@ -1,5 +1,5 @@
-import {get} from '../../utils/network'
 import _ from 'lodash'
+import {get} from '../../utils/network'
 import {URL_PREFIX} from '../../constant/Constant'
 
 let requestURL =  URL_PREFIX + '/topics?'

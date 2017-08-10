@@ -1,7 +1,6 @@
 import React, {Component, PropTypes}from 'react'
 import {
     View,
-    Text,
     ListView,
     Image,
     ScrollView,

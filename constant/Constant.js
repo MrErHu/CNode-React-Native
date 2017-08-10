@@ -17,5 +17,10 @@ export const funcContrast = {
 
 
 export const headerStyle = {
-    backgroundColor: '#F8F8F8'
+    backgroundColor: '#333333'
+}
+
+
+export const headerTitleStyle = {
+    color: '#FFFFFF'
 }
