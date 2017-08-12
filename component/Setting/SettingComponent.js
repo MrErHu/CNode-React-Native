@@ -3,11 +3,12 @@ import {
     View,
     Text,
     Switch,
-    StyleSheet
 } from 'react-native'
-import {headerStyle, headerTitleStyle} from '../../constant/Constant'
-import SettingItems from './SettingItems'
 import PropTypes from 'prop-types'
+import {light,night}from './style'
+import {headerStyle, headerTitleStyle, headerBackTitleStyle} from '../../constant/Constant'
+import SettingItems from './SettingItems/SettingItems'
+
 
 class SettingComponent extends Component {
 
@@ -28,14 +29,16 @@ class SettingComponent extends Component {
         return {
             title: '设置',
             headerStyle: headerStyle,
-            headerTitleStyle: headerTitleStyle,
+            headerTitleStyle,
+            headerBackTitleStyle
         }
     }
 
     render() {
+        const styles = this.props.night ? night : light;
         return (
             <View style={styles.container}>
-                <SettingItems>
+                <SettingItems night={this.props.night}>
                     <View style={styles.setting}>
                         <Text style={styles.font}>夜间模式</Text>
                         <Switch
@@ -52,23 +55,5 @@ class SettingComponent extends Component {
         this.props.actions.setNight(status);
     }
 }
-
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1
-    },
-    setting: {
-        flex: 1,
-        marginLeft: 10,
-        marginRight: 10,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center'
-    },
-    font: {
-        fontSize: 15
-    },
-})
 
 export default SettingComponent;

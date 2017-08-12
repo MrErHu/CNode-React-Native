@@ -24,3 +24,8 @@ export const headerStyle = {
 export const headerTitleStyle = {
     color: '#FFFFFF'
 }
+
+
+export const headerBackTitleStyle = {
+    color: '#FFFFFF'
+}

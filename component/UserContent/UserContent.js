@@ -3,7 +3,7 @@ import {
     View,
     StyleSheet
 }from 'react-native'
-import {headerStyle}from '../../constant/Constant'
+import {headerStyle,headerTitleStyle,headerBackTitleStyle}from '../../constant/Constant'
 import UserContentComponent from './UserContentComponent'
 import UserContentHelper from './UserContentHelper'
 
@@ -22,7 +22,9 @@ class UserContent extends Component {
     static navigationOptions = ({navigation}) => {
         return {
             title: navigation.state.params.title,
-            headerStyle: headerStyle,
+            headerStyle,
+            headerTitleStyle,
+            headerBackTitleStyle
         }
     }
 

@@ -6,8 +6,8 @@ import {
     ListView,
     StyleSheet,
 }from 'react-native'
-import HTMLView from './HtmlView';
-import {headerStyle} from '../../constant/Constant'
+import HTMLView from '../../base/HtmlView';
+import {headerStyle, headerTitleStyle, headerBackTitleStyle} from '../../constant/Constant'
 import TopicDetailHelper from './TopicDetailHelper'
 import TopicComment from './TopicComment'
 
@@ -30,6 +30,8 @@ class TopicDetail extends Component {
         return {
             title: navigation.state.params.title,
             headerStyle: headerStyle,
+            headerTitleStyle,
+            headerBackTitleStyle
         }
     }
 
@@ -115,7 +117,7 @@ class TopicDetail extends Component {
         )
     }
 
-    _refreshDetail(){
+    _refreshDetail() {
         this._getData();
     }
 }

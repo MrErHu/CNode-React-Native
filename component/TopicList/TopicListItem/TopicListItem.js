@@ -27,12 +27,11 @@ class TopicListItem extends Component {
 
     static contextTypes = {
         navigation: PropTypes.object,
-        night: PropTypes.bool
     }
 
     render() {
         const {title, create_at, last_reply_at, tab, author, reply_count, visit_count} = this.props;
-        const styles = this.context.night ? night : light;
+        const styles = this.props.night ? night : light;
         return (
             <ButtonView
                 effect={ButtonView.EFFECT.DEFAULT}

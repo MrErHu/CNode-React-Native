@@ -81,11 +81,15 @@ class TopicList extends Component {
                     onEndReached={this._onEndReachedHandler}
                     renderFooter={this._renderFooterHandler}
                 />
-                {loading ? null : <View style={styles.addTopic}>
-                        <IconButton
-                            name="add-topic"
-                        />
-                    </View>}
+                {
+                    !loading && (
+                        <View style={styles.addTopic}>
+                            <IconButton
+                                name="add-topic"
+                            />
+                        </View>
+                    )
+                }
             </View>
         )
     }
@@ -97,6 +101,7 @@ class TopicList extends Component {
         return (
             <TopicListItem
                 {...rowData}
+                night={this.props.night}
             />
         );
     }

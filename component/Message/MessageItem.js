@@ -4,6 +4,7 @@ import {
     Text,
     StyleSheet
 } from 'react-native'
+import HtmlView from '../../base/HtmlView'
 import ButtonView from '../../base/ButtonView'
 import IconButton from '../../base/IconButton'
 import moment from 'moment'
@@ -43,7 +44,9 @@ class MessageItem extends Component {
                             >
                                 <Text style={styles.detailText}>{author.loginname}</Text>
                             </ButtonView>
-                            <Text>{reply.content}</Text>
+                            <HtmlView
+                                value={reply.content}
+                            />
                         </View>
                         <View style={styles.rightContent}>
                             <Text style={styles.detailText}>

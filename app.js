@@ -10,7 +10,7 @@ import TopicDetail from './container/TopicDetailContainer'
 import Home from './container/HomeContainer'
 import Login from './container/LoginContainer'
 import Setting from './container/SettingContainer'
-import About from './component/About'
+import About from './container/AboutContainer'
 import Message from './component/Message'
 import UserContent from './component/UserContent'
 

@@ -6,15 +6,3 @@ export default Color  = {
     share: "#e5e5e5",
 };
 
-const DARK_THEME = {
-    backgroundColor: '#333333',
-    fontColor: '#FFFFFF'
-
-}
-
-const LIGHT_THEME = {
-    backgroundColor: '#FFFFFF',
-    fontColor: '#000000'
-}
-
-

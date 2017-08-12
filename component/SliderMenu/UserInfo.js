@@ -1,23 +1,18 @@
-import React, {Component,PropTypes}from 'react'
+import React, {Component, PropTypes}from 'react'
 import {
     View,
     Text,
     Image,
-    Easing,
-    Animated,
-    Dimensions,
     StyleSheet,
-    TouchableHighlight,
-    TouchableWithoutFeedback
 }from 'react-native'
 
 import ButtonView from '../../base/ButtonView'
 import Icon from '../../base/Icon'
 
-class UserInfo extends Component{
+class UserInfo extends Component {
 
-    constructor(props,context){
-        super(props,context)
+    constructor(props, context) {
+        super(props, context)
         this._loginHandler = this._loginHandler.bind(this)
         this._navigateUserScreen = this._navigateUserScreen.bind(this)
         this._logoutHandler = this._logoutHandler.bind(this)
@@ -27,12 +22,12 @@ class UserInfo extends Component{
         actions: PropTypes.object
     }
 
-    render(){
-        const {isLogin,loginname, avatar_url} = this.props
+    render() {
+        const {isLogin, loginname, avatar_url} = this.props
         if (isLogin === false) {
             return (
                 <View style={styles.userWithoutLoginView}>
-                    <TouchableWithoutFeedback
+                    <ButtonView
                         onPress={this._loginHandler}
                     >
                         <View style={styles.userWithoutLoginContainer}>
@@ -40,25 +35,27 @@ class UserInfo extends Component{
                                 name="login"
                             />
                         </View>
-                    </TouchableWithoutFeedback>
+                    </ButtonView>
                 </View>
             )
         } else {
             return (
                 <View style={[styles.userContent,styles.border]}>
                     <View style={styles.avatarView}>
-                        <TouchableWithoutFeedback
+                        <ButtonView
                             onPress={this._navigateUserScreen}
                         >
                             <Image
                                 style={styles.userAvatar}
                                 source={{uri: `${avatar_url}`}}
                             />
-                        </TouchableWithoutFeedback>
+                        </ButtonView>
                     </View>
                     <View style={styles.userInfoView}>
                         <View style={styles.userInfoViewLeft}>
-                            <Text>{loginname}</Text>
+                            <ButtonView onPress={this._navigateUserScreen}>
+                                <Text>{loginname}</Text>
+                            </ButtonView>
                         </View>
                         <View style={styles.userInfoViewRight}>
                             <ButtonView onPress={this._logoutHandler}>
@@ -71,20 +68,20 @@ class UserInfo extends Component{
         }
     }
 
-    _loginHandler(){
+    _loginHandler() {
         const {navigation, onRequestClose} = this.props
         onRequestClose(navigation.navigate('Login'));
     }
 
-    _navigateUserScreen(){
-        const {navigation, onRequestClose,loginname} = this.props
-        onRequestClose(navigation.navigate('UserContent',{
+    _navigateUserScreen() {
+        const {navigation, onRequestClose, loginname} = this.props
+        onRequestClose(navigation.navigate('UserContent', {
             title: '我的主页',
             userName: loginname
         }));
     }
 
-    _logoutHandler(){
+    _logoutHandler() {
         const {onRequestClose} = this.props
         onRequestClose(this.context.actions.logout())
     }

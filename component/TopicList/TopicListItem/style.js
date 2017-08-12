@@ -64,6 +64,9 @@ const style = {
 const lightStyle = {
     container: {
         backgroundColor: '#FFFFFF',
+    },
+    titleContent: {
+        color: '#000000'
     }
 
 }
@@ -71,6 +74,9 @@ const lightStyle = {
 const nightStyle = {
     container: {
         backgroundColor: '#333333',
+    },
+    titleContent:{
+        color: '#FFFFFF'
     }
 }
 

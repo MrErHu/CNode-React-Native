@@ -5,7 +5,7 @@ import {
     StyleSheet
 } from 'react-native'
 import ScrollableTabView from 'react-native-scrollable-tab-view'
-import {headerStyle} from '../../constant/Constant'
+import {headerStyle,headerTitleStyle} from '../../constant/Constant'
 import MessageHelper from './MessageHelper'
 import MessageList from './MessageList'
 
@@ -20,7 +20,9 @@ class Message extends Component {
     static navigationOptions = ({navigation}) => {
         return {
             title: '我的消息',
-            headerStyle: headerStyle
+            headerStyle: headerStyle,
+            headerTitleStyle: headerTitleStyle,
+
         }
     }
 
@@ -30,7 +32,7 @@ class Message extends Component {
 
     getChildContext() {
         return {
-            navigation: this.props.navigation
+            navigation: this.props.navigation,
         }
     }
 

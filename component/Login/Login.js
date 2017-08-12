@@ -10,7 +10,7 @@ import {
 import Toast from '../../base/Toast'
 import LoginHelper from './LoginHelper'
 import ActionSheet from '../../base/ActionSheet'
-import {headerStyle} from '../../constant/Constant'
+import {headerStyle,headerTitleStyle} from '../../constant/Constant'
 import QcCodeScan from '../QcCodeScan'
 import ScanIcon from './ScanIcon'
 
@@ -33,7 +33,8 @@ class Login extends Component {
     static navigationOptions = ({navigation}) => {
         return {
             title: '登录',
-            headerStyle: headerStyle,
+            headerStyle,
+            headerTitleStyle,
             headerRight: (<ScanIcon
                 navigation={navigation}
             />)

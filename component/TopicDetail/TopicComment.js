@@ -6,7 +6,7 @@ import {
     StyleSheet
 } from 'react-native'
 import moment from 'moment'
-import HTMLView from './HtmlView';
+import HTMLView from '../../base/HtmlView/HtmlView';
 import ButtonView from '../../base/ButtonView'
 import IconButton from '../../base/IconButton'
 import {URL_PREFIX} from '../../constant/Constant'

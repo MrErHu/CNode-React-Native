@@ -6,7 +6,7 @@ class MessageHelper {
     async getData(props){
         const {login} = props.navigation.state.params
         const {accessToken} = login
-        const url = `${URL_PREFIX}/messages?mdrender=false&accesstoken=${accessToken}`
+        const url = `${URL_PREFIX}/messages?mdrender=true&accesstoken=${accessToken}`
 
         const data = await get(url)
         if(data.success){

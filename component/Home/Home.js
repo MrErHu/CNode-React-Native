@@ -1,10 +1,7 @@
 import React, {Component} from 'react'
-import {
-    View,
-    StyleSheet
-} from 'react-native'
+import {View} from 'react-native'
 import PropTypes from 'prop-types'
-import {headerStyle, headerTitleStyle} from '../../constant/Constant'
+import {headerStyle, headerTitleStyle, headerBackTitleStyle} from '../../constant/Constant'
 import CategoryContainer from '../../container/CategoryContainer'
 import TopicList from '../../component/TopicList'
 
@@ -16,13 +13,11 @@ class Home extends Component {
 
     static childContextTypes = {
         navigation: PropTypes.object,
-        night: PropTypes.bool
     }
 
     getChildContext() {
         return {
             navigation: this.props.navigation,
-            night: this.props.setting.night
         }
     }
 
@@ -40,23 +35,18 @@ class Home extends Component {
     }
 
     render() {
-        const {limit,mdrender,tab} = this.props;
+        const {limit, mdrender, tab, setting} = this.props;
         return (
-            <View style={styles.container}>
+            <View>
                 <TopicList
+                    tab={tab}
                     limit={limit}
                     mdrender={mdrender}
-                    tab={tab}
+                    night={setting.night}
                 />
             </View>
         );
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        backgroundColor: '#FFF'
-    }
-})
 
 export default Home

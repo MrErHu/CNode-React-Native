@@ -51,7 +51,8 @@
   ],
   "scan": [
     0xe689,
-    24
+    24,
+    "#FFFFFF"
   ],
   "favorite": [
     0xe608,
@@ -85,8 +86,7 @@
   ],
   "github-icon": [
     0xe735,
-    30,
-    "#24292e"
+    30
   ],
   "add-topic": [
     0xe661,
