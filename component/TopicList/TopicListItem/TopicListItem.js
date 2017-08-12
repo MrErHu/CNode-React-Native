@@ -5,14 +5,15 @@ import {
     View,
     Text,
     Image,
-    StyleSheet,
-    TouchableWithoutFeedback
 } from 'react-native'
+
+import {TabContrast} from '../../../constant/Constant'
+import ButtonView from '../../../base/ButtonView'
+import IconButton from '../../../base/IconButton'
+import {night,light} from './style'
+
 import moment from 'moment'
 import 'moment/locale/zh-cn'
-import {TabContrast} from '../../constant/Constant'
-import ButtonView from '../../base/ButtonView'
-import IconButton from '../../base/IconButton'
 moment.locale('zh-cn')
 
 @mixin(PureRenderMixin)
@@ -25,14 +26,13 @@ class TopicListItem extends Component {
     }
 
     static contextTypes = {
-        navigation: PropTypes.object
+        navigation: PropTypes.object,
+        night: PropTypes.bool
     }
 
     render() {
-        const {
-            title, create_at, last_reply_at, tab, author, reply_count, visit_count
-        } = this.props;
-
+        const {title, create_at, last_reply_at, tab, author, reply_count, visit_count} = this.props;
+        const styles = this.context.night ? night : light;
         return (
             <ButtonView
                 effect={ButtonView.EFFECT.DEFAULT}
@@ -94,65 +94,5 @@ class TopicListItem extends Component {
         })
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        height: 100,
-        flexDirection: 'column',
-        borderBottomWidth: 0.5,
-        borderBottomColor: '#666',
-        padding: 15
-    },
-    title: {
-        height: 20,
-        flexDirection: 'row',
-        marginBottom: 10
-    },
-    tabView: {
-        width: 40,
-        height: 20,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 5,
-        backgroundColor: '#80bd01'
-    },
-    tabText: {
-        color: '#FFF'
-    },
-    titleContent: {
-        flex: 1,
-        fontSize: 16,
-        fontWeight: 'bold',
-        marginLeft: 10
-    },
-    detail: {
-        flex: 1,
-        flexDirection: 'row'
-    },
-    avatar: {
-        width: 40,
-        height: 40,
-        borderRadius: 20
-    },
-    centerContent: {
-        flex: 1,
-        marginLeft: 10,
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        alignItems: 'flex-start',
-    },
-    rightContent: {
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        alignItems: 'flex-end',
-        width: 70
-    },
-    detailText: {
-        fontSize: 13,
-        fontFamily: 'Helvetica',
-        color: '#888'
-    }
-
-})
 
 export default TopicListItem

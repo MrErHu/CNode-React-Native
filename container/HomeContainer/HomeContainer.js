@@ -3,8 +3,10 @@ import Home from '../../component/Home'
 
 const mapStateToProps = (state) => {
     const topicList = state.get('topicList').toJS();
+    const setting = state.get('setting').toJS();
     return {
-        tab: topicList.tab
+        ...topicList,
+        setting
     }
 }
 

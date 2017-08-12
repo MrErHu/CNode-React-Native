@@ -8,7 +8,7 @@ import {
 } from 'react-native'
 import _ from 'lodash'
 import {decorate as mixin} from 'react-mixin'
-import TopicListItem from './TopicListItem'
+import TopicListItem from './TopicListItem/TopicListItem'
 import TopicListHelper from './TopicListHelper'
 import IconButton from '../../base/IconButton'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
