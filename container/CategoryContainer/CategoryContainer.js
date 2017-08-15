@@ -2,7 +2,6 @@ import React, {Component}from 'react'
 import {
     Image,
     StyleSheet,
-    TouchableWithoutFeedback,
 }from 'react-native'
 import SliderMenu from '../../component/SliderMenu'
 import {updateTab} from '../../action/topicListAction'
@@ -30,12 +29,13 @@ class Category extends Component {
     }
 
     _iconButtonPressHandler() {
-        const {tab, actions, login, navigation} = this.props;
+        const {tab, actions, login, navigation, setting} = this.props;
         SliderMenu.showSliderMenuWithOptions({
             tab,
             login,
             actions,
-            navigation
+            navigation,
+            night: setting.night
         });
     }
 }
@@ -51,6 +51,7 @@ const mapStateToProps = (state, ownProps) => {
     return {
         tab: state.getIn(['topicList', 'tab']),
         login: state.get('login').toJS(),
+        setting: state.get('setting').toJS(),
         ...ownProps
     }
 }

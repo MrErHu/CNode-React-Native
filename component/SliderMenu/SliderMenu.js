@@ -8,14 +8,15 @@ import {
     Dimensions,
     StyleSheet,
     TouchableHighlight,
-    TouchableWithoutFeedback
 } from 'react-native'
 import Portal from '../../base/Portal'
+import ButtonView from '../../base/ButtonView'
 import {TabContrast, funcContrast} from '../../constant/Constant'
 import Icon from '../../base/Icon'
 import UserInfo from './UserInfo'
+import {light,night} from './style'
 
-const {width:windowWidth, height:windowHeight} = Dimensions.get('window')
+const {width:windowWidth} = Dimensions.get('window')
 
 class SliderMenu extends Component {
 
@@ -32,7 +33,12 @@ class SliderMenu extends Component {
 
     static propTypes = {
         tab: PropTypes.string.isRequired,
+        night: PropTypes.bool,
         onRequestClose: PropTypes.func.isRequired
+    }
+
+    static defaultProps = {
+        night: false
     }
 
     static showSliderMenuWithOptions(options) {
@@ -67,8 +73,12 @@ class SliderMenu extends Component {
 
     render() {
         const {tab, login, navigation, onRequestClose} = this.props;
+        const styles = this.props.night ? night: light;
         return (
-            <TouchableWithoutFeedback onPress={()=>{this._closeSliderMenu(onRequestClose)}}>
+            <ButtonView
+                effect={ButtonView.EFFECT.DEFAULT}
+                onPress={()=>{this._closeSliderMenu(onRequestClose)}}
+            >
                 <View style={styles.container}>
                     <Animated.View
                         style={[styles.content,{
@@ -78,15 +88,17 @@ class SliderMenu extends Component {
                     >
                         <UserInfo
                             {...login}
+                            night={this.props.night}
                             navigation={navigation}
                             onRequestClose={onRequestClose}
                         />
                         {
                             Object.keys(TabContrast).map((key) => {
                                 return (
-                                    <TouchableHighlight
+                                    <ButtonView
                                         style={styles.buttonView}
-                                        underlayColor={'#F2F2F2'}
+                                        effect={ButtonView.EFFECT.DEFAULT}
+                                        underlayColor={this.props.night?'#333':'#FFF'}
                                         key={key}
                                         onPress={this._tabChangeHandler.bind(this,key)}
                                     >
@@ -99,16 +111,17 @@ class SliderMenu extends Component {
                                                 {TabContrast[key]}
                                             </Text>
                                         </View>
-                                    </TouchableHighlight>
+                                    </ButtonView>
                                 )
                             })
                         }
                         {
                             ['message', 'set', 'about'].map((key) => {
                                 return (
-                                    <TouchableHighlight
+                                    <ButtonView
                                         style={styles.buttonView}
-                                        underlayColor={'#F2F2F2'}
+                                        effect={ButtonView.EFFECT.DEFAULT}
+                                        underlayColor={this.props.night?'#333':'#FFF'}
                                         key={key}
                                         onPress={this._menuPressHandler.bind(this,key)}
                                     >
@@ -121,13 +134,13 @@ class SliderMenu extends Component {
                                                 {funcContrast[key]}
                                             </Text>
                                         </View>
-                                    </TouchableHighlight>
+                                    </ButtonView>
                                 )
                             })
                         }
                     </Animated.View>
                 </View>
-            </TouchableWithoutFeedback>
+            </ButtonView>
         )
     }
 
@@ -187,43 +200,5 @@ class SliderMenu extends Component {
         }
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-        width: windowWidth,
-        height: windowHeight
-    },
-    content: {
-        backgroundColor: '#FFFFFF',
-        height: windowHeight,
-        flexDirection: 'column'
-    },
-    buttonView: {
-        flex: 1
-    },
-    button: {
-        flex: 1,
-        flexDirection: 'row',
-        alignItems: 'center'
-    },
-    buttonActive: {
-        backgroundColor: '#F2F2F2',
-    },
-    buttonIcon: {
-        marginLeft: 20,
-        marginRight: 30
-    },
-    buttonText: {
-        flex: 1,
-        fontSize: 14,
-        fontWeight: 'bold',
-        color: '#666666'
-    },
-    border: {
-        borderBottomWidth: 2,
-        borderBottomColor: '#cccccc'
-    }
-})
 
 export default SliderMenu

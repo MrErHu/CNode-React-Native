@@ -2,12 +2,12 @@ import React, {Component, PropTypes}from 'react'
 import {
     View,
     Text,
-    Image,
-    StyleSheet,
+    Image
 }from 'react-native'
 
-import ButtonView from '../../base/ButtonView'
-import Icon from '../../base/Icon'
+import {light,night} from './style'
+import ButtonView from '../../../base/ButtonView'
+import Icon from '../../../base/Icon'
 
 class UserInfo extends Component {
 
@@ -18,12 +18,21 @@ class UserInfo extends Component {
         this._logoutHandler = this._logoutHandler.bind(this)
     }
 
+    static propTypes = {
+        night: PropTypes.bool
+    }
+
+    static defaultProps = {
+        night: false
+    }
+
     static contextTypes = {
         actions: PropTypes.object
     }
 
     render() {
-        const {isLogin, loginname, avatar_url} = this.props
+        const {isLogin, loginname, avatar_url} = this.props;
+        const styles = this.props.night ? night : light;
         if (isLogin === false) {
             return (
                 <View style={styles.userWithoutLoginView}>
@@ -31,9 +40,7 @@ class UserInfo extends Component {
                         onPress={this._loginHandler}
                     >
                         <View style={styles.userWithoutLoginContainer}>
-                            <Icon
-                                name="login"
-                            />
+                            <Icon name="login"/>
                         </View>
                     </ButtonView>
                 </View>
@@ -54,12 +61,12 @@ class UserInfo extends Component {
                     <View style={styles.userInfoView}>
                         <View style={styles.userInfoViewLeft}>
                             <ButtonView onPress={this._navigateUserScreen}>
-                                <Text>{loginname}</Text>
+                                <Text style={styles.font}>{loginname}</Text>
                             </ButtonView>
                         </View>
                         <View style={styles.userInfoViewRight}>
                             <ButtonView onPress={this._logoutHandler}>
-                                <Text>注销</Text>
+                                <Text style={styles.font}>注销</Text>
                             </ButtonView>
                         </View>
                     </View>
@@ -88,58 +95,3 @@ class UserInfo extends Component {
 }
 
 export default UserInfo
-
-const styles = StyleSheet.create({
-    userContent: {
-        flex: 3,
-        paddingTop: 20,
-        flexDirection: 'column'
-    },
-    border: {
-        borderBottomWidth: 2,
-        borderBottomColor: '#cccccc'
-    },
-    userInfoView: {
-        flex: 1,
-        flexDirection: 'row'
-    },
-    userInfoViewLeft: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    userInfoViewRight: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    userWithoutLoginView: {
-        flex: 3,
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingTop: 20
-    },
-    userWithoutLoginContainer: {
-        width: 80,
-        height: 80,
-        borderRadius: 40,
-        backgroundColor: '#00bcd4',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    userWithoutLoginContent: {
-        width: 32,
-        height: 32,
-    },
-    userAvatar: {
-        width: 64,
-        height: 64,
-        borderRadius: 32
-    },
-    avatarView: {
-        flex: 2,
-        justifyContent: 'center',
-        alignItems: 'center'
-    }
-})
