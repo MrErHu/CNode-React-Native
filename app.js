@@ -18,7 +18,7 @@ const store = configureStore()
 
 //Redux store持久化
 persistStore(store,{
-    whitelist: ['login','setting'],
+    whitelist: ['login'],
     storage: AsyncStorage,
 },()=>{
     console.log('本地持久化存储成功');

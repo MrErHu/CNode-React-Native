@@ -7,9 +7,10 @@ import {
 } from 'react-native'
 import moment from 'moment'
 import 'moment/locale/zh-cn'
-import IconButton from '../../base/IconButton'
-import {post} from '../../utils/network'
-import {URL_PREFIX} from '../../constant/Constant'
+import {night, light} from './styles'
+import IconButton from '../../../base/IconButton'
+import {post} from '../../../utils/network'
+import {URL_PREFIX} from '../../../constant/Constant'
 moment.locale('zh-cn')
 
 class Header extends Component {
@@ -35,6 +36,7 @@ class Header extends Component {
 
     render() {
         const {author, create_at} = this.props;
+        const styles = this.props.setting.night ? night : light;
         return (
             <View style={styles.headerContainer}>
                 <Image
@@ -88,35 +90,5 @@ class Header extends Component {
         return data
     }
 }
-
-const styles = StyleSheet.create({
-    headerContainer: {
-        flexDirection: 'row',
-        justifyContent: "space-between",
-        alignItems: 'center',
-        marginTop: 10,
-        marginBottom: 10
-    },
-    avatar: {
-        width: 40,
-        height: 40,
-        borderRadius: 20,
-        marginLeft: 10,
-        marginRight: 10
-    },
-    contentContainer: {
-        flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'space-between'
-    },
-    contentText: {
-        fontSize: 12
-    },
-    favContainer: {
-        marginLeft: 10,
-        marginRight: 10
-    }
-
-})
 
 export default Header

@@ -3,15 +3,15 @@ import {
     View,
     Text,
     ScrollView,
-    ListView,
-    StyleSheet,
+    ListView
 }from 'react-native'
 import HTMLView from '../../base/HtmlView';
 import {headerStyle, headerTitleStyle, headerBackTitleStyle} from '../../constant/Constant'
 import TopicDetailHelper from './TopicDetailHelper'
-import TopicComment from './TopicComment'
+import TopicComment from './TopicComment/TopicComment'
+import {night,light} from './styles'
 
-import Header from './Header'
+import Header from './Header/Header'
 
 class TopicDetail extends Component {
 
@@ -56,30 +56,35 @@ class TopicDetail extends Component {
     }
 
     render() {
+        const styles = this.props.setting.night ? night: light;
+
         if (!this.state) {
             return (
                 <View style={styles.container}>
-                    <Text>Loading...</Text>
+                    <Text style={styles.font}>Loading...</Text>
                 </View>
             )
         }
+
         const {title, content, replies} =this.state.data
         return (
             <View style={styles.container}>
                 <ScrollView style={styles.scrollContainer}>
                     <Header
+                        setting={this.props.setting}
                         login={this.props.login}
                         {...this.state.data}
                     />
                     <View style={styles.titleContainer}>
                         <Text
-                            style={styles.title}
+                            style={[styles.title,styles.font]}
                         >
                             {title}
                         </Text>
                     </View>
                     <View style={styles.detailContent}>
                         <HTMLView
+                            night={this.props.setting.night}
                             value={content}
                         />
                     </View>
@@ -112,6 +117,7 @@ class TopicDetail extends Component {
                 login={this.props.login}
                 topicId={this.state.data.id}
                 refresh={this._refreshDetail}
+                setting={this.props.setting}
                 {...rowData}
             />
         )
@@ -121,33 +127,5 @@ class TopicDetail extends Component {
         this._getData();
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1
-    },
-    scrollContainer: {
-        flex: 1,
-        backgroundColor: '#FFF',
-        paddingLeft: 10,
-        paddingRight: 10
-    },
-    titleContainer: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    title: {
-        fontWeight: 'bold',
-        fontSize: 16,
-    },
-    commentContainer: {
-        paddingTop: 20,
-    },
-    detailContent: {
-        borderBottomWidth: 0.5,
-        borderBottomColor: '#666'
-    }
-})
 
 export default TopicDetail

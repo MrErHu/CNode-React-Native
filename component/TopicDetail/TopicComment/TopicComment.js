@@ -6,12 +6,13 @@ import {
     StyleSheet
 } from 'react-native'
 import moment from 'moment'
-import HTMLView from '../../base/HtmlView/HtmlView';
-import ButtonView from '../../base/ButtonView'
-import IconButton from '../../base/IconButton'
-import {URL_PREFIX} from '../../constant/Constant'
-import {post} from '../../utils/network'
-import CommentInput from '../../base/CommentInput'
+import HTMLView from '../../../base/HtmlView/HtmlView';
+import ButtonView from '../../../base/ButtonView'
+import IconButton from '../../../base/IconButton'
+import {URL_PREFIX} from '../../../constant/Constant'
+import {post} from '../../../utils/network'
+import CommentInput from '../../../base/CommentInput'
+import {night,light} from './style'
 
 class TopicComment extends Component {
 
@@ -41,6 +42,7 @@ class TopicComment extends Component {
 
     render() {
         const {author, create_at, content, is_uped, ups} = this.props;
+        const styles = this.props.setting.night ? night : light;
         return (
             <View style={styles.commentContainer}>
                 <View style={styles.avatarView}>
@@ -58,7 +60,7 @@ class TopicComment extends Component {
                     <View style={styles.rightTopContainer}>
                         <View>
                             <View style={styles.rightTopView}>
-                                <Text style={styles.nameText}>{author.loginname}</Text>
+                                <Text style={[styles.nameText,styles.font]}>{author.loginname}</Text>
                             </View>
                             <View>
                                 <Text style={styles.timeText}>{moment(create_at).format('YYYY-M-D H:k')}</Text>
@@ -87,6 +89,7 @@ class TopicComment extends Component {
                     <View >
                         <HTMLView
                             value={content}
+                            night={this.props.setting.night}
                         />
                     </View>
                 </View>
@@ -153,58 +156,5 @@ class TopicComment extends Component {
         })
     }
 }
-
-const styles = StyleSheet.create({
-    commentContainer: {
-        flex: 1,
-        flexDirection: 'row'
-    },
-    avatarView: {
-        width: 40,
-        flexDirection: 'row',
-        alignItems: 'flex-start'
-    },
-    avatar: {
-        width: 30,
-        height: 30,
-        borderRadius: 15,
-        marginTop: 5
-    },
-    rightView: {
-        flex: 1,
-        marginTop: 5,
-        borderBottomWidth: 0.5,
-        borderBottomColor: '#666'
-    },
-    nameText: {
-        fontSize: 13
-    },
-    rightTopView: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between'
-    },
-    timeText: {
-        fontSize: 11,
-        color: '#666'
-    },
-    contentText: {
-        fontSize: 14
-    },
-    operations: {
-        flexDirection: 'row',
-        alignItems: 'center'
-    },
-    rightTopContainer: {
-        flexDirection: 'row',
-        alignItems: 'flex-start',
-        justifyContent: 'space-between'
-    },
-    praiseContainer: {
-        flexDirection: 'row',
-        alignItems: 'flex-start',
-
-    }
-})
 
 export default TopicComment

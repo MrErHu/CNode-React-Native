@@ -3,7 +3,8 @@ import TopicDetail from '../../component/TopicDetail'
 
 const mapStateToProps = (state,ownProps)=>{
     return {
-        login: state.get('login').toJS()
+        login: state.get('login').toJS(),
+        setting: state.get('setting').toJS()
     }
 }
 
