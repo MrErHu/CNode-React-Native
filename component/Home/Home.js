@@ -1,5 +1,8 @@
 import React, {Component} from 'react'
-import {View} from 'react-native'
+import {
+    View,
+    Text
+} from 'react-native'
 import PropTypes from 'prop-types'
 import {headerStyle, headerTitleStyle, headerBackTitleStyle} from '../../constant/Constant'
 import CategoryContainer from '../../container/CategoryContainer'
@@ -42,7 +45,7 @@ class Home extends Component {
                     tab={tab}
                     limit={limit}
                     mdrender={mdrender}
-                    night={setting.night}
+                    setting={setting}
                 />
             </View>
         );

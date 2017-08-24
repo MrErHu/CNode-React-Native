@@ -61,9 +61,11 @@ class TopicListItem extends Component {
                                 style={styles.detailText}>{'创建于: ' + moment(create_at).locale('de').format('ll')}</Text>
                         </View>
                         <View style={styles.rightContent}>
-                            <Text style={styles.detailText}>
-                                <Text style={{color: '#80bd01'}}>{reply_count}</Text>
-                                {` / ${visit_count}`}
+                            <Text
+                                style={styles.detailText}
+                                numberOfLines={1}
+                            >
+                                <Text style={{color: '#80bd01'}}>{reply_count}</Text>{` / ${visit_count}`}
                             </Text>
                             <Text style={styles.detailText}>
                                 {moment(last_reply_at).startOf('hour').fromNow()}

@@ -3,6 +3,7 @@ import {
     View,
     ListView,
     Image,
+    Text,
     ScrollView,
     StyleSheet,
 } from 'react-native'
@@ -12,6 +13,7 @@ import TopicListItem from './TopicListItem/TopicListItem'
 import TopicListHelper from './TopicListHelper'
 import IconButton from '../../base/IconButton'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
+import {night, light}from './style'
 
 const initialState = {
     data: [],
@@ -70,9 +72,11 @@ class TopicList extends Component {
     render() {
         const {data} = this.state
         const loading = _.isEmpty(this.state.data);
+        const styles = this.props.setting.night ? night : light;
         return (
             <View style={styles.container}>
                 <ListView
+                    style={styles.listView}
                     dataSource={this.dataSource.cloneWithRows(data)}
                     renderRow={this._renderTopicItem}
                     enableEmptySections={true}
@@ -101,12 +105,13 @@ class TopicList extends Component {
         return (
             <TopicListItem
                 {...rowData}
-                night={this.props.night}
+                night={this.props.setting.night}
             />
         );
     }
 
     _renderFooterHandler() {
+        const styles = this.props.setting.night ? night : light;
         if (this.state.isFetching) {
             return (
                 <View style={styles.loadingContainer}>
@@ -135,31 +140,5 @@ class TopicList extends Component {
         })
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        position: 'relative',
-        backgroundColor: '#FFF'
-    },
-    loadingContainer: {
-        flex: 1,
-        height: 40,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    loading: {
-        width: 18,
-        height: 18
-    },
-    addTopic: {
-        position: 'absolute',
-        right: 25,
-        bottom: 25,
-        width: 50,
-        height: 50,
-        borderRadius: 25,
-        overflow: 'hidden'
-    }
-})
 
 export default TopicList
