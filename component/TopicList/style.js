@@ -7,7 +7,7 @@ const styles = {
     },
     loadingContainer: {
         flex: 1,
-        height: 40,
+        height: 50,
         justifyContent: 'center',
         alignItems: 'center'
     },
@@ -23,18 +23,33 @@ const styles = {
         height: 50,
         borderRadius: 25,
         overflow: 'hidden'
+    },
+    downArrowContainer: {
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'row'
+    },
+    font: {
+
     }
 }
 
 const lightStyle = {
     container: {
-        backgroundColor: '#FFF'
+        backgroundColor: '#F2F2F2'
+    },
+    font: {
+        color: '#000'
     }
 }
 
 const nightStyle = {
     container: {
         backgroundColor: '#333'
+    },
+    font: {
+        color: '#FFF'
     }
 }
 
