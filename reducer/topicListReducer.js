@@ -12,6 +12,8 @@ export default ($topicList = initialState, action) => {
     switch (action.type) {
         case ActionTypes.UPDATE_TAB:
             return $topicList.set('tab', action.tab)
+        case ActionTypes.INIT_LIMIT:
+            return $topicList.set('limit', 0);
         default:
             return $topicList
     }

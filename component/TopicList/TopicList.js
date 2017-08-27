@@ -18,12 +18,6 @@ import IconButton from '../../base/IconButton'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
 import {night, light}from './style'
 
-const initialState = {
-    data: [],
-    isFetching: true,
-    refresh: false
-}
-
 @mixin(PureRenderMixin)
 class TopicList extends Component {
 
@@ -33,10 +27,11 @@ class TopicList extends Component {
             rowHasChanged: (r1, r2) => r1 !== r2
         })
         this.state = {
-            ...initialState,
+            data: [],
+            refresh: false,
             reachEnd: false,
+            isFetching: true,
             rotateValue: new Animated.Value(0)
-
         };
 
         this.listEndListY = null
@@ -58,9 +53,12 @@ class TopicList extends Component {
     componentWillReceiveProps(nextProps) {
         if (nextProps.tab !== this.props.tab) {
             this.help.updateHelper(nextProps)
-            this.setState(initialState)
+            this.setState({
+                data: [],
+                isFetching: true
+            });
             this.help.getData({
-                page: this.state.data.length
+                page: this.props.limit
             }).then(data => {
                 this.setState({
                     data: this.state.data.concat(data),
@@ -68,6 +66,7 @@ class TopicList extends Component {
                 })
             })
         }
+
     }
 
     componentWillMount() {
@@ -127,10 +126,7 @@ class TopicList extends Component {
                           <RefreshControl
                             refreshing={this.state.refresh}
                             onRefresh={this._refreshList}
-                            tintColor="#ff0000"
-                            titleColor="#00ff00"
-                            colors={['#ff0000', '#00ff00', '#0000ff']}
-                            progressBackgroundColor="#ffff00"
+                            title="下拉刷新"
                           />
                         }
                         onScroll={this._onScrollHandler}
@@ -221,6 +217,19 @@ class TopicList extends Component {
     }
 
     _refreshList() {
+        this.setState({
+            refresh: true,
+        },()=>{
+            this.help.getData({
+                page: 0
+            }).then(data => {
+                this.setState({
+                    data: data.slice(0),
+                    refresh: false
+                })
+            })
+
+        })
     }
 
     _onEndReachedHandler(event) {
