@@ -1,14 +1,15 @@
-import React,{Component,PropTypes}from 'react'
+import React, {Component, PropTypes}from 'react'
 import {
     Text,
     ListView,
     StyleSheet
 } from 'react-native'
-import ButtonView from '../../base/ButtonView'
+import ButtonView from '../../../base/ButtonView'
+import {combineStyles} from '../../../utils'
 
-class TopicItem extends Component{
+class TopicItem extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props)
         this.ds = new ListView.DataSource({
             rowHasChanged: (r1, r2) => r1 !== r2
@@ -18,10 +19,11 @@ class TopicItem extends Component{
     }
 
     static contextTypes = {
-        navigation: PropTypes.object
+        navigation: PropTypes.object,
+        setting: PropTypes.object
     }
 
-    render(){
+    render() {
         return (
             <ListView
                 dataSource={this.ds.cloneWithRows(this.props.data)}
@@ -31,12 +33,14 @@ class TopicItem extends Component{
     }
 
     _renderRow(rowData, sectionID, rowID) {
+        const styles = this.context.setting.night ? night : light;
         return (
             <ButtonView
                 style={styles.topicItem}
                 onPress={()=>{this._navigateTopicDetail(rowData)}}
             >
                 <Text
+                    style={styles.font}
                     numberOfLines={1}
                     ellipsizeMode={'tail'}
                 >
@@ -56,7 +60,7 @@ class TopicItem extends Component{
     }
 }
 
-const styles = StyleSheet.create({
+const styles = {
     topicItem: {
         height: 50,
         flexDirection: 'row',
@@ -65,9 +69,21 @@ const styles = StyleSheet.create({
         paddingRight: 20,
         borderBottomWidth: 0.5,
         borderBottomColor: '#666'
-    }
-})
+    },
+    font: {}
+}
 
+const night = StyleSheet.create(combineStyles(styles,{
+    font: {
+        color: '#FFF'
+    }
+}))
+
+const light = StyleSheet.create(combineStyles(styles,{
+    font: {
+        color: '#000'
+    }
+}))
 
 
 export default TopicItem

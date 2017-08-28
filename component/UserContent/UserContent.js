@@ -3,9 +3,10 @@ import {
     View,
     StyleSheet
 }from 'react-native'
-import {headerStyle,headerTitleStyle,headerBackTitleStyle}from '../../constant/Constant'
-import UserContentComponent from './UserContentComponent'
+import {headerStyle, headerTitleStyle, headerBackTitleStyle}from '../../constant/Constant'
+import UserContentComponent from './UserContentComponent/UserContentComponent'
 import UserContentHelper from './UserContentHelper'
+import {combineStyles} from '../../utils'
 
 class UserContent extends Component {
 
@@ -16,7 +17,8 @@ class UserContent extends Component {
     }
 
     static propTpypes = {
-        userName: PropTypes.string.isRequired
+        userName: PropTypes.string.isRequired,
+        setting: PropTypes.object
     }
 
     static navigationOptions = ({navigation}) => {
@@ -29,12 +31,14 @@ class UserContent extends Component {
     }
 
     static childContextTypes = {
-        navigation: PropTypes.object
+        navigation: PropTypes.object,
+        setting: PropTypes.object
     }
 
     getChildContext() {
         return {
-            navigation: this.props.navigation
+            navigation: this.props.navigation,
+            setting: this.props.setting
         };
     }
 
@@ -48,26 +52,40 @@ class UserContent extends Component {
     }
 
     render() {
-        if (this.state.data) {
-            return (
-                <View
-                    style={styles.container}
-                >
-                    <UserContentComponent
-                        {...this.state.data}
-                    />
-                </View>
-            )
-        }
-        return null
+        const styles = this.props.setting.night ? night : light;
+        return (
+            <View
+                style={styles.container}
+            >
+                {
+                    this.state.data && (
+                        <UserContentComponent
+                            {...this.state.data}
+                        />
+                    )
+                }
+            </View>
+        )
+
     }
 }
 
-const styles = StyleSheet.create({
+const styles = {
     container: {
-        backgroundColor: '#FFF',
         flex: 1
     }
-})
+}
+
+const light = StyleSheet.create(combineStyles(styles, {
+    container: {
+        backgroundColor: '#FFF'
+    }
+}))
+
+const night = StyleSheet.create(combineStyles(styles, {
+    container: {
+        backgroundColor: '#333'
+    }
+}))
 
 export default UserContent

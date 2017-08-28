@@ -11,6 +11,7 @@ import moment from 'moment'
 import 'moment/locale/zh-cn'
 import TopicItem from './TopicItem'
 import ScrollableTabView from 'react-native-scrollable-tab-view'
+import {night, light} from './style'
 
 moment.locale('zh-cn')
 
@@ -20,8 +21,13 @@ class UserContentComponent extends Component {
         super(props);
     }
 
+    static contextTypes = {
+        setting: PropTypes.object
+    }
+
     render() {
         const {avatar_url, loginname, create_at, score} = this.props;
+        const styles = this.context.setting.night ? night : light;
         return (
             <View style={styles.userContentContainer}>
                 <View style={styles.userAvatarContainer}>
@@ -30,15 +36,19 @@ class UserContentComponent extends Component {
                         source={{uri: `${avatar_url}`}}
                     />
                     <View style={styles.userTextContainer}>
-                        <Text style={styles.userName}>{loginname}</Text>
+                        <Text style={[styles.userName,styles.font]}>{loginname}</Text>
                         <Text style={styles.userBottomText}>
-                            <Text style={styles.userTime}>创建于:{moment(create_at).locale('de').format('ll')}   </Text>
-                            <Text style={styles.userScore}>积分:{score}</Text>
+                            <Text style={[styles.userTime,styles.font]}>创建于:{moment(create_at).locale('de').format('ll')}   </Text>
+                            <Text style={[styles.userScore,styles.font]}>积分:{score}</Text>
                         </Text>
                     </View>
                 </View>
                 <View style={styles.topicItemContainer}>
-                    <ScrollableTabView>
+                    <ScrollableTabView
+                        tabBarTextStyle={{
+                            color: this.context.setting.night ? '#FFF': '#000'
+                        }}
+                    >
                         <TopicItem
                             tabLabel="最近创建"
                             data={this.props.recent_topics}
@@ -59,64 +69,3 @@ class UserContentComponent extends Component {
 }
 
 export default UserContentComponent
-
-const styles = StyleSheet.create({
-    userContentContainer: {
-        flex: 1
-    },
-    userAvatarContainer: {
-        flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    userAvatar: {
-        width: 64,
-        height: 64,
-        borderRadius: 32,
-        marginBottom: 15
-    },
-    userTextContainer: {
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    userBottomText: {},
-    userName: {
-        fontSize: 14,
-        fontWeight: 'bold',
-        marginBottom: 10
-    },
-    userTime: {
-        fontSize: 12,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    userScore: {
-        fontSize: 12,
-        marginRight: 20
-    },
-    topicItemContainer: {
-        flex: 3,
-    },
-    buttonGroup: {
-        height: 50,
-        flexDirection: 'row'
-    },
-    buttonView: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderWidth: 0.5,
-        borderColor: '#666'
-    },
-    topicContainer: {
-        flex: 1
-    },
-    selectedStyle: {
-        borderBottomWidth: 4,
-        borderBottomColor: '#387ef5'
-    }
-})
-

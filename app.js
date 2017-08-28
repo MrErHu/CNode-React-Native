@@ -7,12 +7,12 @@ import configureStore from './store'
 import Portal from './base/Portal'
 
 import TopicDetail from './container/TopicDetailContainer'
+import UserContent from './container/UserContentContainer'
 import Home from './container/HomeContainer'
 import Login from './container/LoginContainer'
 import Setting from './container/SettingContainer'
 import About from './container/AboutContainer'
 import Message from './component/Message'
-import UserContent from './component/UserContent'
 
 const store = configureStore()
 
