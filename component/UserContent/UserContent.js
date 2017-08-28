@@ -4,7 +4,7 @@ import {
     StyleSheet
 }from 'react-native'
 import {headerStyle, headerTitleStyle, headerBackTitleStyle}from '../../constant/Constant'
-import UserContentComponent from './UserContentComponent/UserContentComponent'
+import UserContentComponent from './UserContentComponent'
 import UserContentHelper from './UserContentHelper'
 import {combineStyles} from '../../utils'
 

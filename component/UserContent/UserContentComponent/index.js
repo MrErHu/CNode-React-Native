@@ -1,3 +1,2 @@
-/**
- * Created by lei.wang on 2017/8/28.
- */
+import UserContentComponent from './UserContentComponent'
+export default UserContentComponent
