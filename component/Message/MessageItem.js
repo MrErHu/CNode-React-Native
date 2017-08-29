@@ -20,7 +20,8 @@ class MessageItem extends Component {
     }
 
     static contextTypes = {
-        navigation: PropTypes.object
+        navigation: PropTypes.object,
+        night: PropTypes.bool
     }
 
     render() {
@@ -46,6 +47,7 @@ class MessageItem extends Component {
                             </ButtonView>
                             <HtmlView
                                 value={reply.content}
+                                night={this.context.night}
                             />
                         </View>
                         <View style={styles.rightContent}>

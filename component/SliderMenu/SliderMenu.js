@@ -185,7 +185,8 @@ class SliderMenu extends Component {
         if (this._validateLogin()) {
             const {navigation} = this.props;
             navigation.navigate('Message', {
-                login: this.props.login
+                login: this.props.login,
+                night: this.props.night
             })
         }
     }

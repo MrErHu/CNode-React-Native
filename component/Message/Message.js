@@ -5,9 +5,10 @@ import {
     StyleSheet
 } from 'react-native'
 import ScrollableTabView from 'react-native-scrollable-tab-view'
-import {headerStyle,headerTitleStyle} from '../../constant/Constant'
+import {headerStyle, headerTitleStyle} from '../../constant/Constant'
 import MessageHelper from './MessageHelper'
 import MessageList from './MessageList'
+import {night, light} from './style'
 
 class Message extends Component {
 
@@ -27,12 +28,14 @@ class Message extends Component {
     }
 
     static childContextTypes = {
-        navigation: PropTypes.object
+        navigation: PropTypes.object,
+        night: PropTypes.bool
     }
 
     getChildContext() {
         return {
             navigation: this.props.navigation,
+            night: this.props.navigation.state.params.night
         }
     }
 
@@ -45,36 +48,35 @@ class Message extends Component {
     }
 
     render() {
-        if (!this.state) {
-            return (
-                <View style={styles.container}>
-                    <Text>Loading...</Text>
-                </View>
-            )
-        }
-        return (
+        const {params} = this.props.navigation.state;
+        const styles = params.night ? night : light;
+        return(
             <View style={styles.container}>
-                <ScrollableTabView>
-                    <MessageList
-                        tabLabel="未读消息"
-                        data={this.state.data.hasnot_read_messages}
-                    />
-                    <MessageList
-                        tabLabel="已读消息"
-                        data={this.state.data.has_read_messages}
-                    />
-                </ScrollableTabView>
+                {
+                    !this.state ? (
+                            <View style={styles.container}>
+                                <Text style={styles.font}>Loading...</Text>
+                            </View>
+                        ) : (
+                            <ScrollableTabView
+                                tabBarTextStyle={{
+                                    color: params.night ? '#FFF': '#000'
+                                }}
+                            >
+                                <MessageList
+                                    tabLabel="未读消息"
+                                    data={this.state.data.hasnot_read_messages}
+                                />
+                                <MessageList
+                                    tabLabel="已读消息"
+                                    data={this.state.data.has_read_messages}
+                                />
+                            </ScrollableTabView>
+                        )
+                }
             </View>
         )
     }
-
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#FFF'
-    }
-})
 
 export default Message
